@@ -1,0 +1,36 @@
+
+.navigation__container {
+    display: flex;
+    align-items: center;
+}
+
+.navigation__link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 20px 0 0;
+}
+
+.navigation__link_active {
+    font-weight: 400;
+}
+
+.navigation__link:last-of-type {
+    margin: 0 0 0 30px;
+}
+
+.navigation__link:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}
+
+.navigation__profile-image {
+    margin: 0 0 0 17px;
+    width: 11.5px;
+    height: 14px;
+    background: #313131;
+    border-radius: 4px;
+    padding: 8px 7.25px;
+}

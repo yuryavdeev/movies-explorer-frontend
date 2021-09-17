@@ -1,0 +1,22 @@
+.header {
+    width: 100%;
+    max-width: 1140px;
+    display: flex;
+    justify-content: space-between;
+    /* margin: auto; */
+    padding: 18px 70px 18px;
+}
+
+.header__type_color {
+    background-color: #073042;
+}
+
+.header__logo {
+    width: 38px;
+    cursor: pointer;
+}
+
+.header__logo:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}
