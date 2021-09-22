@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
 import './Movies.css';
-import Header from "../Header/Header";
+import Header from '../Header/Header';
+import Preloader from './Preloader/Preloader'
+import MoviesCard from './MoviesCard/MoviesCard';
 
 const Movies = React.memo(() => {
     return (
-        <div className="movies">
+        <section className='movies'>
             <Header />
-
-        </div>
+            {/* <Preloader /> */}
+            <MoviesCard />
+        </section>
     )
 });
 

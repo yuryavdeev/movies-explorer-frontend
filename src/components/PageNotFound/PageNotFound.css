@@ -3,32 +3,52 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
 }
 
 .not-found__404 {
     font-weight: normal;
-    font-size: 140px;
+    font-size: 80px;
     line-height: 1.2;
-    margin: 246px 0 5px;
+    margin: 0 0 10px 0;
 }
 
 .not-found__message {
     font-weight: normal;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.2;
     margin: 0;
 }
 
-.not-found__button-back {
+.not-found__return {
     color: #4285F4;
     text-decoration: none;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.2;
-    margin: 184px 0 0;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
-.not-found__button-back:hover {
+.not-found__return:hover {
     opacity: .6;
     transition: opacity linear 0.3s;
+}
+
+@media screen and (min-width: 520px) {
+    .not-found__404 {
+        font-size: 140px;
+        margin: 0 0 5px 0;
+    }
+
+    .not-found__message {
+        font-size: 16px;
+    }
+
+    .not-found__return {
+        font-size: 14px;
+        transform: translate(0, 184px);
+    }
 }

@@ -1,24 +1,36 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
 
+/* .navigation_active {
+    display: flex;
+} */
+
+/* ссылки xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 .navigation__container {
+    margin: 144px 0 0 0;
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 .navigation__link {
     color: #fff;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 1.3;
-    margin: 0 20px 0 0;
+    line-height: 1.2;
+    font-weight: 500;
+    margin: 0 0 24px 0;
 }
 
 .navigation__link_active {
-    font-weight: 400;
-}
-
-.navigation__link:last-of-type {
-    margin: 0 0 0 30px;
+    padding-bottom: 7px;
+    border-bottom: #fff 2px solid;
 }
 
 .navigation__link:hover {
@@ -26,11 +38,83 @@
     transition: opacity linear 0.3s;
 }
 
-.navigation__profile-image {
+/* аккаунт xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+.navigation__account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.navigation__account-link {
+    font-size: 14px;
+    line-height: 1.1;
+    margin-top: 0;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navigation__account-link:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}
+
+.navigation__account-image {
+    background-image: url('../../images/account.svg');
+    background-repeat: no-repeat;
+    background-size: 26px;
+    color: hotpink;
     margin: 0 0 0 17px;
-    width: 11.5px;
-    height: 14px;
-    background: #313131;
+    width: 26px;
+    height: 30px;
     border-radius: 4px;
-    padding: 8px 7.25px;
+}
+
+@media screen and (min-width: 520px) {
+    .navigation {
+        top: -41px;
+        right: -7px;
+    }
+
+    .navigation__container {
+        margin-top: 159px;
+    }
+
+    .navigation__account-container {
+        margin-bottom: 51px;
+    }
+}
+
+@media screen and (min-width: 780px) {
+    .navigation__link {
+        font-size: 14px;
+        line-height: 1.3;
+        margin: 0 0 0 20px;
+    }
+
+    .navigation__link_main {
+        display: none;
+    }
+
+    .navigation__link_active {
+        padding: 0;
+        border: none;
+        font-weight: 400;
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+    }
+
+    .navigation__container {
+        margin: 0 50px 0 0;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .navigation__account-container {
+        margin-bottom: 0;
+    }
 }

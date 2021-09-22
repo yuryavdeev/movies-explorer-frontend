@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import './SavedMovies.css';
-import Header from "../Header/Header";
+import Header from '../Header/Header';
 
 const SavedMovies = React.memo(() => {
     return (
-        <div className="saved-movies">
+        <section className='saved-movies'>
             <Header />
 
-        </div>
+        </section>
     )
 });
 

@@ -1,15 +1,22 @@
-import React from "react";
+import React from 'react';
 import './Main.css';
-import Header from "../Header/Header";
-import Promo from "./Promo/Promo";
+import Header from '../Header/Header';
+import Promo from './Promo/Promo';
+import NavTab from './NavTab/NavTab';
+import AboutProject from './AboutProject/AboutProject';
+import Techs from './Techs/Techs';
+import AboutMe from './AboutMe/AboutMe';
 
 const Main = React.memo(() => {
     return (
-        <div className="main">
+        <section className='main'>
             <Header />
             <Promo />
-
-        </div>
+            <NavTab />
+            <AboutProject />
+            <Techs />
+            <AboutMe />
+        </section>
     )
 });
 

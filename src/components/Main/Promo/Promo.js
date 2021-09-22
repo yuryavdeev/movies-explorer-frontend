@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
 import './Promo.css';
 
 const Promo = React.memo(() => {
     return (
-        <div className="promo">
-
-        </div>
+        <section className='promo'>
+            <h1 className='promo__titile'>
+                Учебный проект студента факультета Веб-разработки.
+            </h1>
+        </section>
     )
 });
 

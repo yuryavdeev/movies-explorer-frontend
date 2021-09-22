@@ -1,0 +1,227 @@
+.grid-area {
+    display: grid;
+    grid-template-columns: minmax(auto, 480px);
+    grid-template-rows: repeat(3, auto);
+    row-gap: 40px;
+    grid-template-areas: 
+    "photo"
+    "info" 
+    "portfolio";
+    justify-content: center;
+}
+
+.grid-area__photo {
+    grid-area: photo;
+    width: 100%;
+    max-width: 292px;
+    max-height: 352px;
+    justify-self: center;
+    border-radius: 10px;
+}
+
+/* инфо */
+.grid-area__info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.grid-area__info-name {
+    margin: 0;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+}
+
+.grid-area__info-about {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 20px 0;
+}
+
+.grid-area__info-text {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 0 0 40px 0;
+    max-width: 600px;
+}
+
+.grid-area__info-links-list {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0;
+    flex-grow: 2;
+}
+
+.grid-area__links-item {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+}
+
+.grid-area__info-link {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 26px 0 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.grid-area__info-link:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}
+
+/* портфолио */
+.grid-area__portfolio {
+    grid-area: portfolio;
+}
+
+.grid-area__portfolio-title {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #A0A0A0;
+    margin: 0 0 40px;
+}
+
+.grid-area__portfolio-links-list {
+    margin: 0;
+    padding: 0;
+}
+
+.grid-area__portfolio-name {
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -.04em;
+    width: fit-content;
+    margin: 0;
+}
+
+.grid-area__portfolio-link {
+    
+}
+
+.grid-area__portfolio-link:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}
+
+.grid-area__portfolio-border {
+    width: 100%;
+    height: 1px;
+    background-color: #E6E6E6;
+    margin: 19px auto 20px;
+    border: none;
+}
+
+.grid-area__portfolio-arrow {
+    box-sizing: border-box;
+    padding: 0 2px;
+    width: 18px;
+}
+
+
+@media screen and (min-width: 640px) {
+    .grid-area {
+        grid-template-columns: auto 255px;
+        grid-template-rows: repeat(2, auto); 
+        gap: 90px 49px;
+        grid-template-areas: 
+        "info photo"
+        "portfolio portfolio";
+        justify-content: space-between;
+    }
+
+    .grid-area__photo {
+        max-height: 307px;
+    }
+
+    /* инфо */
+    .grid-area__info-name {
+        font-size: 40px;
+        line-height: 1;
+    }
+
+    .grid-area__info-about {
+        font-size: 12px;
+        margin: 16px 0 20px;
+    }
+
+    .grid-area__info-text {
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .grid-area__info-link {
+        margin: 0 20px 0 0;
+    }
+
+    /* портфолио */
+    .grid-area__portfolio-title {
+        font-size: 14px;
+        line-height: 1.1;
+        margin: 0 0 50px;
+    }
+
+    .grid-area__portfolio-name {
+        font-size: 28px;
+        line-height: 1.8;
+    }
+
+        
+    .grid-area__portfolio-border {
+        margin: 19px auto 20px;
+    }
+
+    .grid-area__portfolio-arrow {
+        width: 27px;
+        height: 37px;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .grid-area {
+        grid-template-columns: auto 270px;
+        grid-template-rows: repeat(2, auto);
+        gap: 100px 49px;
+    }
+
+    .grid-area__photo {
+        max-height: 327px;
+    }
+
+    /* инфо */
+    .grid-area__info-name {
+        font-size: 50px;
+        line-height: 1.15;
+    }
+
+    .grid-area__info-about {
+        font-size: 18px;
+        margin: 18px 0 26px;
+    }
+
+    .grid-area__info-text {
+        font-size: 14px;
+    }
+
+    /* портфолио */
+    .grid-area__portfolio-name {
+        font-size: 30px;
+        line-height: 1.6;
+    }
+
+    .grid-area__portfolio-arrow {
+        width: 29px;
+    }
+}

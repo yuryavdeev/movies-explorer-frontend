@@ -1,0 +1,38 @@
+@import url(./GridArea.css);
+
+.about-me {
+    width: calc(100% - 28px);
+    max-width: 1140px;
+    margin: 70px auto;
+}
+
+.about-me__title {
+    width: 100%;
+    max-width: 1140px;
+    border-bottom: 1px solid #DADADA;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -.04em;
+    margin: 0 auto 60px;
+    padding: 0 0 28px 0;
+}
+
+@media screen and (min-width: 640px) {
+    .about-me {
+        width: calc(100% - 100px);
+        margin: 90px auto;
+    }
+
+    .about-me__title {
+        font-size: 22px;
+        margin: 0 auto 66px;
+        padding: 0 0 23px 0;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .about-me {
+        margin: 110px auto 125px;
+    }
+}
