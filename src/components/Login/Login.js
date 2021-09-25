@@ -1,7 +1,7 @@
 import React from 'react'
 import Access from '../Access/Access';
 
-const Login = React.memo(({ handleLoginSubmit, isSubmitting }) => {
+const Login = React.memo(({ handleLoginSubmit }) => {
 
     const greeting = 'Рады видеть!'
     const button = 'Войти'
@@ -10,11 +10,11 @@ const Login = React.memo(({ handleLoginSubmit, isSubmitting }) => {
 
     return (
         <Access
-            handleSubmit={handleLoginSubmit}
-            greeting = {greeting}
-            button = {button}
-            isRegistrated={isRegistrated}            
-            link = {link}
+            nextHandleSubmit={handleLoginSubmit}
+            greeting={greeting}
+            button={button}
+            isRegistrated={isRegistrated}
+            link={link}
         />
     );
 });

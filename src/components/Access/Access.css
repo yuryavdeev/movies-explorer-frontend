@@ -56,6 +56,14 @@
     -webkit-text-fill-color: #fff;
 }
 
+.access__input::placeholder {
+    font-weight: 200;
+}
+
+.access__input::-ms-input-placeholder {
+    font-weight: 200;
+}
+
 .access__input_wrong {
     margin: 10px 0 0;
     -webkit-text-fill-color: #EE3465;

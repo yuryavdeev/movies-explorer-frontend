@@ -1,10 +1,8 @@
 import React from 'react';
 
 import './Popup.css';
-import Navigation from '../Navigation/Navigation';
 
-
-const Popup = (({ navigationPopup, closePopup }) => {
+const Popup = (({ popupIsOpen, closePopup, Content, buttonClose }) => {
 
     const handleFieldClick = (evt) => {
         evt.target === evt.currentTarget && closePopup();
@@ -14,18 +12,20 @@ const Popup = (({ navigationPopup, closePopup }) => {
         const handleEsc = (evt) => {
             evt.key === 'Escape' && closePopup();
         }
-        navigationPopup && document.addEventListener('keyup', handleEsc);
+        popupIsOpen && document.addEventListener('keyup', handleEsc);
         return () => {
             document.removeEventListener('keyup', handleEsc);
         };
-    }, [closePopup, navigationPopup]);
+    }, [closePopup, popupIsOpen]);
+
 
     return (
         <div className='popup' onClick={handleFieldClick}>
-            <div className='popup__container'>
-                <button className='popup__close' type='button' onClick={closePopup}></button>
-                <Navigation />
-            </div>
+                {
+                    buttonClose &&
+                    <button className='popup__close' type='button' onClick={closePopup}></button>
+                }
+                {Content}
         </div>
     );
 });

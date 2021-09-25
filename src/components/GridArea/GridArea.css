@@ -24,7 +24,6 @@
     grid-area: info;
     display: flex;
     flex-direction: column;
-    justify-content: start;
 }
 
 .grid-area__info-name {

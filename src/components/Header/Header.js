@@ -35,7 +35,6 @@ const Header = React.memo(() => {
         setNavigationPopup(false);
     }
 
-
     return (
         <header className={`header ${location.pathname === '/' && 'header__type_color'}`}>
             <img className='header__logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
@@ -57,8 +56,10 @@ const Header = React.memo(() => {
             {
                 navigationPopup &&
                 <Popup
+                    popupIsOpen={navigationPopup}
                     closePopup={closePopup}
-                    navigationPopup={navigationPopup}
+                    Content={<Navigation/>}
+                    buttonClose={true}
                 />
             }
 

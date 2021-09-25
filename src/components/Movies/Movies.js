@@ -1,15 +1,25 @@
 import React from 'react';
+
 import './Movies.css';
 import Header from '../Header/Header';
-import Preloader from './Preloader/Preloader'
-import MoviesCard from './MoviesCard/MoviesCard';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import SearchForm from '../SearchForm/SearchForm';
 
-const Movies = React.memo(() => {
+
+const Movies = React.memo(({ moviesList, handleSubmitSearchForm }) => {
+
     return (
         <section className='movies'>
             <Header />
-            {/* <Preloader /> */}
-            <MoviesCard />
+            <SearchForm
+                handleSubmitSearchForm={handleSubmitSearchForm}
+            />
+            {
+                moviesList &&
+                <MoviesCardList
+                    moviesList={moviesList}
+                />
+            }
         </section>
     )
 });

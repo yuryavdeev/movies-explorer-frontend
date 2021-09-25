@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Access.css'
 import logo from '../../images/logo.svg';
 
-const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link }) => {
+const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link }) => {
 
     const location = useLocation();
 
@@ -18,9 +18,9 @@ const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    const handleClick = (evt) => {
+    const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleSubmit({ name, email, password });
+        nextHandleSubmit({ name, email, password });
     }
 
     const handleNameInput = (evt) => {
@@ -43,7 +43,7 @@ const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link
                 <h2 className='access__title'>{greeting}</h2>
             </div>
 
-            <form className='access__form' onSubmit={handleClick} id='access'>
+            <form className='access__form' onSubmit={handleSubmit} id='access'>
                 {location.pathname === '/signup' &&
                     <>
                         <label className='access__label'>Имя
@@ -58,6 +58,7 @@ const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link
                                 // formNoValidate
                                 minLength='6'
                                 maxLength='30'
+                                placeholder = 'name'
                             />
                         </label>
                         {
@@ -76,6 +77,7 @@ const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link
                         value={email}
                         onChange={handleEmailInput}
                         required
+                        placeholder='e-mail'
                     />
                 </label>
                 {
@@ -94,6 +96,7 @@ const Access = React.memo(({ handleSubmit, greeting, button, isRegistrated, link
                         required
                         minLength='6'
                         maxLength='30'
+                        placeholder='password'
                     />
                 </label>
                 {

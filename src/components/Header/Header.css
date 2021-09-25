@@ -76,7 +76,7 @@
     transition: opacity linear 0.3s;
 }
 
-@media screen and (min-width: 520px) {
+@media screen and (min-width: 640px) {
     .header {
         padding: 15px 30px;
     }

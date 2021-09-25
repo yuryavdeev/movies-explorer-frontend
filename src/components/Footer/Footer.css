@@ -50,7 +50,7 @@
 }
 
 
-@media screen and (min-width: 520px) {
+@media screen and (min-width: 640px) {
     .footer {
         font-size: 13px;
         flex-direction: row-reverse;

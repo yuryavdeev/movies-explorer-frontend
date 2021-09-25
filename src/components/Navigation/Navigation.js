@@ -7,7 +7,7 @@ const Navigation = React.memo(() => {
     const location = useLocation();
 
     return (
-        <div className='navigation'>
+        <div className='navigation navigation_popup'>
 
             <nav className='navigation__container'>
                 <NavLink to='/' className={`navigation__link navigation__link_main  ${location.pathname === '/' && 'navigation__link_active'}`} target='_self'>

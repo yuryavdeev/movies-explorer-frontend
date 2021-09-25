@@ -32,7 +32,6 @@ const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
         setEmail(evt.target.value);
     }
 
-
     return (
         <>
             <Header />
@@ -58,7 +57,7 @@ const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
                             id='email'
                             name='email'
                             type='email'
-                            className={`profile__input ${somethingWrongEmail && 'profile__input_wrong'}`} // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                            className={`profile__input ${somethingWrongEmail && 'profile__input_wrong'}`}
                             value={email}
                             onChange={handleEmailInput}
                             required

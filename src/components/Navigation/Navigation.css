@@ -6,9 +6,14 @@
     height: 100%;
 }
 
-/* .navigation_active {
-    display: flex;
-} */
+.navigation_popup {
+    max-width: 520px;
+    max-height: 1024px;
+    background-color: #000;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
 
 /* ссылки xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 .navigation__container {
@@ -86,6 +91,13 @@
 }
 
 @media screen and (min-width: 780px) {
+    .navigation_popup {
+        background-color: rgba(0, 0, 0, 0);
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
     .navigation__link {
         font-size: 14px;
         line-height: 1.3;
