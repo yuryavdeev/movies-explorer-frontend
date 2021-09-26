@@ -6,7 +6,6 @@ function InfoTooltip({ popupIsOpen, closePopup, icon, notification }) {
 
     return (
         <Popup
-            popupIsOpen={popupIsOpen}
             closePopup={closePopup}
             Content={
                 <div className='info-tooltip__container'>
