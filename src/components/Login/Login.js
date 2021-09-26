@@ -1,5 +1,5 @@
 import React from 'react'
-import Access from '../Access/Access';
+import Access from '../Access/Access'
 
 const Login = React.memo(({ handleLoginSubmit }) => {
 
@@ -16,7 +16,7 @@ const Login = React.memo(({ handleLoginSubmit }) => {
             isRegistrated={isRegistrated}
             link={link}
         />
-    );
-});
+    )
+})
 
-export default Login;
+export default Login

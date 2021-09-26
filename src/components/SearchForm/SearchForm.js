@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
 
-import './SearchForm.css';
-import find from '../../images/find.svg';
+import './SearchForm.css'
+import find from '../../images/find.svg'
 
 const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
 
     const [checkboxOn, setCheckboxOn] = React.useState(false)
-    const [query, setQuery] = React.useState('');
+    const [query, setQuery] = React.useState('')
 
     const handleInput = (e) => {
-        setQuery(e.target.value);
+        setQuery(e.target.value)
     }
 
     const handleSubmit = (e) => {
@@ -28,19 +28,20 @@ const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
                         placeholder='Фильмы'
                         onChange={handleInput}
                         value={query}
-                        type="text"
+                        type='text'
                         required />
                 </label>
                 <button
-                    className="search__button"
-                    type="submit"
+                    className='search__button'
+                    type='submit'
                     style={{ backgroundImage: `url(${find})` }}
                 >
                 </button>
+                <hr className='search__border-line' />
                 <label className='search__label-checkbox'>Короткометражки
                     <input
                         className='search__checkbox'
-                        type="checkbox"
+                        type='checkbox'
                         onClick={() => setCheckboxOn(!checkboxOn)}
                     />
                     <span className='search__checkbox-visible'></span>
@@ -49,6 +50,6 @@ const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
 
         </section>
     )
-});
+})
 
-export default SearchForm;
+export default SearchForm

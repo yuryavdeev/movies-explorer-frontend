@@ -1,22 +1,27 @@
-import React from 'react';
+import React from 'react'
 
-import './Popup.css';
+import './Popup.css'
 
-const Popup = (({ popupIsOpen, closePopup, Content, buttonClose }) => {
+const Popup = (({ closePopup, Content, buttonClose, viewportWidth }) => {
 
     const handleFieldClick = (evt) => {
-        evt.target === evt.currentTarget && closePopup();
+        evt.target === evt.currentTarget && closePopup()
     }
 
     React.useEffect(() => {
         const handleEsc = (evt) => {
-            evt.key === 'Escape' && closePopup();
+            evt.key === 'Escape' && closePopup()
         }
-        popupIsOpen && document.addEventListener('keyup', handleEsc);
+
+        viewportWidth && closePopup()
+
+        document.addEventListener('keyup', handleEsc)
+
         return () => {
-            document.removeEventListener('keyup', handleEsc);
-        };
-    }, [closePopup, popupIsOpen]);
+            document.removeEventListener('keyup', handleEsc)
+        }
+
+    }, [closePopup, viewportWidth])
 
 
     return (
@@ -27,7 +32,7 @@ const Popup = (({ popupIsOpen, closePopup, Content, buttonClose }) => {
                 }
                 {Content}
         </div>
-    );
-});
+    )
+})
 
-export default Popup;
+export default Popup

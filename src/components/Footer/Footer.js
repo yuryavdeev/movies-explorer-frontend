@@ -3,7 +3,7 @@ import './Footer.css'
 
 const Footer = React.memo(() => {
 
-    const date = new Date();
+    const date = new Date()
 
     return (
         <footer className='footer'>
@@ -21,7 +21,7 @@ const Footer = React.memo(() => {
             </ul>
             <p className='footer__copyright'>&copy; {date.getFullYear()}</p>
         </footer>
-    );
-});
+    )
+})
 
-export default Footer;
+export default Footer

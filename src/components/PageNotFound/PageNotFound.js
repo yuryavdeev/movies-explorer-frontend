@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import './PageNotFound.css';
+import React from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import './PageNotFound.css'
 
 const PageNotFound = React.memo(() => {
-    const history = useHistory();
+    const history = useHistory()
 
     return (
         <div className='not-found__container'>
@@ -12,6 +12,6 @@ const PageNotFound = React.memo(() => {
             <Link className='not-found__return' to='' onClick={history.goBack}>Назад</Link>
         </div>
     )
-});
+})
 
-export default PageNotFound;
+export default PageNotFound

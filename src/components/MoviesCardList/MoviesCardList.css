@@ -1,5 +1,6 @@
 .movies-card-list {
     width: calc(100% - 20px);
+    max-width: 600px;
     margin: auto;
 }
 
@@ -30,9 +31,10 @@
     transition: opacity linear 0.3s;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .movies-card-list {
         width: calc(100% - 60px);
+        max-width: 1140px;
     }
 
     .movies-card-list__grid {
@@ -43,14 +45,9 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .movies-card-list {
-        width: calc(100% - 140px);
-    }
-    
     .movies-card-list__grid {
         margin: 70px auto 26px;
         grid-template-columns: repeat(auto-fill, 360px);
         gap: 58px 30px;
-
     }
 }

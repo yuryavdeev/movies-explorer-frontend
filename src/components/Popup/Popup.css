@@ -1,3 +1,12 @@
+@keyframes move {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .popup {
     display: flex;
     opacity: 1;
@@ -15,15 +24,6 @@
     width: 100%;
 }
 
-@keyframes move {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 .popup__close {
     background-image: url(../../images/plus.svg);
     background-repeat: no-repeat;
@@ -36,8 +36,8 @@
     cursor: pointer;
     transform: rotate(-45deg);
     position: absolute;
-    top: 13.44px;
-    right: 13.44px;
+    top: 20px;
+    right: 20px;
     z-index: 11;
 }
 
@@ -45,21 +45,3 @@
     opacity: .6;
     transition: opacity linear 0.3s;
 }
-
-@media screen and (min-width: 520px) {
-    .popup__container {
-        top: -41px;
-        right: -7px;
-    }
-
-    .popup__close {
-        top: 54.44px;
-        right: 20.44px;
-    }
-}
-
-/* @media screen and (min-width: 780px) {
-    .popup {
-        display: none;
-    }
-} */

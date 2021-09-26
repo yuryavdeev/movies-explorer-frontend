@@ -3,7 +3,7 @@ const checkResponse = (res) => {
 }
 
 export const register = async ({ name, email, password }) => {
-    console.log(`роут /signup + ${ name, email, password }`)
+    console.log(`роут /signup`)
     // const res = await fetch(`.../signup`, {
     //     credentials: "include",
     //     method: 'POST',
@@ -20,7 +20,7 @@ export const register = async ({ name, email, password }) => {
 }
 
 export const authorize = async ({ email, password }) => {
-    console.log(`роут /signin + ${ email, password }`)
+    console.log(`роут /signin`)
     // const res = await fetch(` .../signin`, {
     //     credentials: "include",
     //     method: 'POST',

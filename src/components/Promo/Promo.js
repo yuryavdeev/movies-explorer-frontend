@@ -1,5 +1,5 @@
-import React from 'react';
-import './Promo.css';
+import React from 'react'
+import './Promo.css'
 
 const Promo = React.memo(() => {
     return (
@@ -9,6 +9,6 @@ const Promo = React.memo(() => {
             </h1>
         </section>
     )
-});
+})
 
-export default Promo;
+export default Promo

@@ -1,8 +1,8 @@
-import React from 'react';
-import { useLocation } from 'react-router';
+import React from 'react'
+import { useLocation } from 'react-router'
 
-import './MoviesCard.css';
-import Popup from '../Popup/Popup';
+import './MoviesCard.css'
+import Popup from '../Popup/Popup'
 
 const MoviesCard = React.memo(({ movie }) => {
 
@@ -13,11 +13,11 @@ const MoviesCard = React.memo(({ movie }) => {
     const [showTrailer, setShowTrailer] = React.useState(false)
 
     React.useEffect(() => {
-        const dur = Number(movie.duration);
-        const h = Math.floor(dur / 60);
-        const m = Math.floor(dur % 60);
+        const dur = Number(movie.duration)
+        const h = Math.floor(dur / 60)
+        const m = Math.floor(dur % 60)
         setDuration(`${h}ч ${m}м`)
-    }, []);
+    }, [movie.duration])
 
     const handleClick = () => {
         setShowTrailer(true)
@@ -44,7 +44,7 @@ const MoviesCard = React.memo(({ movie }) => {
         <section className='movie'>
 
             <img
-                className="movie__image"
+                className='movie__image'
                 onClick={handleClick}
                 onMouseEnter={() => setMouseOver(true)}
                 onMouseLeave={() => setMouseOver(false)}
@@ -52,8 +52,8 @@ const MoviesCard = React.memo(({ movie }) => {
                 alt='карточка фильма'
             />
             <div className='movie__bottom-container'>
-                <h3 className="movie__caption">{movie.name}</h3>
-                <p className="movie__duration">{duration}</p>
+                <h3 className='movie__caption'>{movie.name}</h3>
+                <p className='movie__duration'>{duration}</p>
             </div>
             {
                 location.pathname === '/saved-movies' &&
@@ -90,17 +90,16 @@ const MoviesCard = React.memo(({ movie }) => {
                     </button>)
             }
             {showTrailer && <Popup
-                popupIsOpen={showTrailer}
                 closePopup={closePopup}
                 Content={
-                    <div className='trailer'>
+                    <div className='movie__trailer'>
                         <iframe
-                            title="random-video"
-                            type="text/html"
-                            width="720"
-                            height="405"
-                            src="https://www.youtube.com/embed/M7lc1UVf-VE"
-                            frameborder="0"
+                            title='random-video'
+                            type='text/html'
+                            width='720'
+                            height='405'
+                            src='https://www.youtube.com/embed/M7lc1UVf-VE'
+                            frameborder='0'
                             allowfullscreen
                         >
                         </iframe>
@@ -111,6 +110,6 @@ const MoviesCard = React.memo(({ movie }) => {
 
         </section>
     )
-});
+})
 
-export default MoviesCard;
+export default MoviesCard

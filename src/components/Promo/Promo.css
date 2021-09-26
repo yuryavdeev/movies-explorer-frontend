@@ -4,7 +4,7 @@
     background-color: #073042;
     background-image: url('../../images/main-promo.svg');
     background-repeat: no-repeat;
-    background-size: 248px;
+    background-size: 77.5%;
     background-position: center;
     display: flex;
     justify-content: center;
@@ -23,9 +23,16 @@
 }
 
 
-@media screen and (min-width: 640px) {
+
+@media screen and (min-width: 410px) {
     .promo {
         background-size: 320px;
+        height: 670px;
+    }
+}
+
+@media screen and (min-width: 660px) {
+    .promo {
         height: 784px;
     }
 

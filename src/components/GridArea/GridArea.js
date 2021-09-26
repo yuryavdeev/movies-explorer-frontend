@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './GridArea.css';
-import photo from '../../images/photo.jpg';
-import arrow from '../../images/arrow.svg';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import './GridArea.css'
+import photo from '../../images/photo.jpg'
+import arrow from '../../images/arrow.svg'
 
 
 const GridArea = React.memo(() => {
@@ -60,6 +60,6 @@ const GridArea = React.memo(() => {
 
         </article >
     )
-});
+})
 
-export default GridArea;
+export default GridArea

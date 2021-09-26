@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import './MoviesSaved.css';
-import Header from '../Header/Header';
-import Preloader from '../Preloader/Preloader';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import SearchForm from '../SearchForm/SearchForm';
-import { getMyMovies } from '../../utils/api';
+import './MoviesSaved.css'
+import Header from '../Header/Header'
+import Preloader from '../Preloader/Preloader'
+import MoviesCardList from '../MoviesCardList/MoviesCardList'
+import SearchForm from '../SearchForm/SearchForm'
+import { getMyMovies } from '../../utils/api'
 
 
 const SavedMovies = React.memo(({ moviesList }) => {
@@ -22,7 +22,7 @@ const SavedMovies = React.memo(({ moviesList }) => {
             // })
             .catch(err => console.log(err))
             .finally(() => setIsSubmitting(false))
-    }, []);
+    }, [])
 
 
     const handleSubmitSearchForm = (queryString) => {
@@ -42,7 +42,7 @@ const SavedMovies = React.memo(({ moviesList }) => {
     }
 
     return (
-        <section className='saved-movies'>
+        <section className='movies-saved'>
             {isSubmitting && <Preloader />}
             <Header />
             <SearchForm
@@ -57,6 +57,6 @@ const SavedMovies = React.memo(({ moviesList }) => {
 
         </section>
     )
-});
+})
 
-export default SavedMovies;
+export default SavedMovies

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import './Movies.css';
-import Header from '../Header/Header';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import SearchForm from '../SearchForm/SearchForm';
+import './Movies.css'
+import Header from '../Header/Header'
+import MoviesCardList from '../MoviesCardList/MoviesCardList'
+import SearchForm from '../SearchForm/SearchForm'
 
 
 const Movies = React.memo(({ moviesList, handleSubmitSearchForm }) => {
@@ -22,6 +22,6 @@ const Movies = React.memo(({ moviesList, handleSubmitSearchForm }) => {
             }
         </section>
     )
-});
+})
 
-export default Movies;
+export default Movies

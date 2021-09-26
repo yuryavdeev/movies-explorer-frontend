@@ -1,35 +1,35 @@
-import React from 'react';
-import './Profile.css';
-import Header from '../Header/Header';
-import { CurrentUser } from '../../contexts/CurrentUserContext';
+import React from 'react'
+import './Profile.css'
+import Header from '../Header/Header'
+import { CurrentUser } from '../../contexts/CurrentUserContext'
 
 
 const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
 
-    const currentUser = React.useContext(CurrentUser);
+    const currentUser = React.useContext(CurrentUser)
     const [buttonDisabled, setButtonDisabled] = React.useState(false) // при загрузке исправить на true
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [somethingWrongName, setSomethingWrongName] = React.useState(false);
-    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false); // ошибка результата запроса
+    const [name, setName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [somethingWrongName, setSomethingWrongName] = React.useState(false)
+    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false) // ошибка результата запроса
 
     React.useEffect(() => {
         currentUser &&
             setName(currentUser.name)
             setEmail(currentUser.email)
-    }, [currentUser]);
+    }, [currentUser])
 
     const handleClick = (evt) => {
-        evt.preventDefault();
-        handleSubmitUpdateUser({ name, email });
+        evt.preventDefault()
+        handleSubmitUpdateUser({ name, email })
     }
 
     const handleNameInput = (evt) => {
-        setName(evt.target.value);
+        setName(evt.target.value)
     }
 
     const handleEmailInput = (evt) => {
-        setEmail(evt.target.value);
+        setEmail(evt.target.value)
     }
 
     return (
@@ -91,7 +91,7 @@ const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
                 </div>
             </section>
         </>
-    );
-});
+    )
+})
 
-export default Profile;
+export default Profile

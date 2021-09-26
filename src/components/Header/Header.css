@@ -1,11 +1,17 @@
 .header {
     width: 100%;
+    padding: 18px 14px;
+    box-sizing: border-box;
+}
+
+.header__wrap {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 14px;
-    box-sizing: border-box;
 }
 
 .header__type_color {
@@ -76,9 +82,13 @@
     transition: opacity linear 0.3s;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .header {
         padding: 15px 30px;
+    }
+
+    .header__wrap {
+        max-width: 1140px;
     }
 
     .header__link_word {
@@ -98,11 +108,5 @@
     .header__nav-icon {
         width: 44px;
         height: 44px;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .header {
-        padding: 18px 70px;
     }
 }

@@ -1,38 +1,38 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'
 
 import './Access.css'
-import logo from '../../images/logo.svg';
+import logo from '../../images/logo.svg'
 
 const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link }) => {
 
-    const location = useLocation();
+    const location = useLocation()
 
-    const [mistake, setMistake] = React.useState('Что-то пошло не так...');
-    const [somethingWrongName, setSomethingWrongName] = React.useState(false);
-    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false); // ошибка результата запроса
-    const [somethingWrongPassword, setSomethingWrongPassword] = React.useState(false);
+    const [mistake, setMistake] = React.useState('Что-то пошло не так...')
+    const [somethingWrongName, setSomethingWrongName] = React.useState(false)
+    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false) // ошибка результата запроса
+    const [somethingWrongPassword, setSomethingWrongPassword] = React.useState(false)
     const [buttonDisabled, setButtonDisabled] = React.useState(false) // при загрузке исправить на true
 
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [name, setName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
 
     const handleSubmit = (evt) => {
-        evt.preventDefault();
-        nextHandleSubmit({ name, email, password });
+        evt.preventDefault()
+        nextHandleSubmit({ name, email, password })
     }
 
     const handleNameInput = (evt) => {
-        setName(evt.target.value);
+        setName(evt.target.value)
     }
 
     const handleEmailInput = (evt) => {
-        setEmail(evt.target.value);
+        setEmail(evt.target.value)
     }
 
     const handlePasswordInput = (evt) => {
-        setPassword(evt.target.value);
+        setPassword(evt.target.value)
     }
 
     return (
@@ -125,7 +125,7 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
                 </p>
             </div>
         </div>
-    );
-});
+    )
+})
 
-export default Access;
+export default Access

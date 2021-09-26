@@ -140,7 +140,7 @@
     transition: opacity linear 0.3s;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .access {
         justify-content: flex-start;
         align-items: flex-start;
@@ -173,7 +173,7 @@
     }
 }
 
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 1024px) {
     .access {
         padding: 70px 0;
     }

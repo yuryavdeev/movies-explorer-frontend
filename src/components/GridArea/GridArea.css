@@ -1,12 +1,12 @@
 .grid-area {
     display: grid;
-    grid-template-columns: minmax(auto, 480px);
+    grid-template-columns: minmax(auto, 560px);
     grid-template-rows: repeat(3, auto);
     row-gap: 40px;
     grid-template-areas: 
-    "photo"
-    "info" 
-    "portfolio";
+    'photo'
+    'info' 
+    'portfolio';
     justify-content: center;
 }
 
@@ -62,7 +62,6 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-
 }
 
 .grid-area__info-link {
@@ -105,10 +104,6 @@
     margin: 0;
 }
 
-.grid-area__portfolio-link {
-    
-}
-
 .grid-area__portfolio-link:hover {
     opacity: .6;
     transition: opacity linear 0.3s;
@@ -129,14 +124,14 @@
 }
 
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .grid-area {
         grid-template-columns: auto 255px;
         grid-template-rows: repeat(2, auto); 
         gap: 90px 49px;
         grid-template-areas: 
-        "info photo"
-        "portfolio portfolio";
+        'info photo'
+        'portfolio portfolio';
         justify-content: space-between;
     }
 
@@ -176,7 +171,6 @@
         line-height: 1.8;
     }
 
-        
     .grid-area__portfolio-border {
         margin: 19px auto 20px;
     }

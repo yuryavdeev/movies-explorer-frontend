@@ -1,15 +1,15 @@
-import React from 'react';
-import { useLocation } from 'react-router';
+import React from 'react'
+import { useLocation } from 'react-router'
 
-import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
+import './MoviesCardList.css'
+import MoviesCard from '../MoviesCard/MoviesCard'
 
 const MoviesCardList = React.memo(({ moviesList }) => {
 
     const location = useLocation()
 
     const addMoviesToScreen = () => {
-        console.log("Плюс 4 строки")
+        console.log('Плюс 4 строки')
     }
 
     const movies = moviesList.slice(0, 6).map(movie => {
@@ -31,6 +31,6 @@ const MoviesCardList = React.memo(({ moviesList }) => {
             }
         </section>
     )
-});
+})
 
-export default MoviesCardList;
+export default MoviesCardList

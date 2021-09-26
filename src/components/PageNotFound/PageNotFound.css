@@ -37,7 +37,7 @@
     transition: opacity linear 0.3s;
 }
 
-@media screen and (min-width: 520px) {
+@media screen and (min-width: 660px) {
     .not-found__404 {
         font-size: 140px;
         margin: 0 0 5px 0;
@@ -49,6 +49,7 @@
 
     .not-found__return {
         font-size: 14px;
-        transform: translate(0, 184px);
+        bottom: 222px;
+        left: 50%;
     }
 }

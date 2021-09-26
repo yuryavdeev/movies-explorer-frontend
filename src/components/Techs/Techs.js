@@ -1,9 +1,10 @@
-import React from 'react';
-import './Techs.css';
+import React from 'react'
+import './Techs.css'
 
 const Techs = React.memo(() => {
     return (
         <section className='techs' id='techs'>
+            <div className='techs__wrap'>
             <h2 className='techs__title'>Технологии</h2>
             <h3 className='techs__subtitle'>7 технологий</h3>
             <p className='techs__text'>
@@ -18,9 +19,10 @@ const Techs = React.memo(() => {
                 <div className='techs__tech-icon'>Express.js</div>
                 <div className='techs__tech-icon'>mongoDB</div>
             </div>
+            </div>
 
         </section>
     )
-});
+})
 
-export default Techs;
+export default Techs

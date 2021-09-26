@@ -1,28 +1,28 @@
-import React from 'react';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import React from 'react'
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
-import './App.css';
-import { CurrentUser } from '../../contexts/CurrentUserContext';
-import Register from '../Register/Register';
-import Login from '../Login/Login';
-import Footer from '../Footer/Footer';
-// import Header from '../Header/Header';
-import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../MoviesSaved/MoviesSaved';
-import Profile from '../Profile/Profile';
-import PageNotFound from '../PageNotFound/PageNotFound';
-import Preloader from '../Preloader/Preloader';
-import { deleteAuth, updateUser, register, authorize, findMovies, findInMyMovies } from '../../utils/api'
-import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import UnionV from '../../images/union-v.svg';
-import UnionX from '../../images/union-x.svg';
+import './App.css'
+import { CurrentUser } from '../../contexts/CurrentUserContext'
+import Register from '../Register/Register'
+import Login from '../Login/Login'
+import Footer from '../Footer/Footer'
+// import Header from '../Header/Header'
+import Main from '../Main/Main'
+import Movies from '../Movies/Movies'
+import SavedMovies from '../MoviesSaved/MoviesSaved'
+import Profile from '../Profile/Profile'
+import PageNotFound from '../PageNotFound/PageNotFound'
+import Preloader from '../Preloader/Preloader'
+import { deleteAuth, updateUser, register, authorize, findMovies } from '../../utils/api'
+import InfoTooltip from '../InfoTooltip/InfoTooltip'
+import UnionV from '../../images/union-v.svg'
+import UnionX from '../../images/union-x.svg'
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-import movie1 from '../../images/movie1.svg';
-import movie2 from '../../images/movie2.svg';
-import movie3 from '../../images/movie3.svg';
-import movie4 from '../../images/movie4.svg';
+import movie1 from '../../images/movie1.svg'
+import movie2 from '../../images/movie2.svg'
+import movie3 from '../../images/movie3.svg'
+import movie4 from '../../images/movie4.svg'
 
 const moviesTest = [
   {
@@ -119,16 +119,16 @@ const myMoviesTest = moviesTest.filter(movie =>
 function App() {
 
   const history = useHistory()
-  const location = useLocation(); // или > { pathname } = useLocation();
-  // const [loggedIn, setLoggedIn] = React.useState(false);
+  const location = useLocation() // или > { pathname } = useLocation()
+  // const [loggedIn, setLoggedIn] = React.useState(false)
   const withFooterURL = ['/', '/movies', '/saved-movies']
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isAuthSuccess, setIsAuthSuccess] = React.useState(false)
   const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
   const [moviesList, setMoviesList] = React.useState(moviesTest)
 
-  const [currentUser, setCurrentUser] = React.useState({ name: 'Юрий', email: 'test@test.com' }); // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  // const [currentUser, setCurrentUser] = React.useState(); // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  const [currentUser, setCurrentUser] = React.useState({ name: 'Юрий', email: 'test@test.com' }) // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // const [currentUser, setCurrentUser] = React.useState() // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   const closePopup = () => {
     setInfoTooltipOpen(false)
@@ -136,13 +136,13 @@ function App() {
 
   // регистрация пользователя
   const handleRegistrationSubmit = ({ name, email, password }) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     register({ name, email, password })
       .then(() => {
         setInfoTooltipOpen(true)
-        setIsAuthSuccess(true);
+        setIsAuthSuccess(true)
         history.push('/signin')
-        setTimeout(() => setInfoTooltipOpen(false), 3000);
+        setTimeout(() => setInfoTooltipOpen(false), 3000)
       })
       .catch((err) => {
         console.log(err)
@@ -156,12 +156,12 @@ function App() {
 
   // авторизация пользователя
   const handleLoginSubmit = ({ email, password }) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     authorize({ email, password })
       .then((data) => {
         // console.log(data)
-        // setLoggedIn(true);
-        // localStorage.setItem('isAuth', true); // маркер - true/false
+        // setLoggedIn(true)
+        // localStorage.setItem('isAuth', true) // маркер - true/false
         history.push('/')
       })
       .catch((err) => {
@@ -177,27 +177,25 @@ function App() {
     setIsSubmitting(true)
     deleteAuth()
       .then((data) => {
-        // console.log(data);
-        // setCurrentUser({});
-        // history.push('/');
-        // setLoggedIn(false);
-        // localStorage.removeItem('isAuth'); // маркер - true/false
+        // console.log(data)
+        setCurrentUser({})
+        history.push('/')
+        // setLoggedIn(false)
+        // localStorage.removeItem('isAuth') // маркер - true/false
       })
       .catch((err) => {
         console.log(err)
         setInfoTooltipOpen(true)
         setIsAuthSuccess(false)
       })
-      .finally(() =>
-        setTimeout(() => setIsSubmitting(false), 15000) // <<<=====================
-      )
+      .finally(() => setIsSubmitting(false))
   }
 
   // обновить данные пользователя
   const handleSubmitUpdateUser = ({ name, email }) => {
     console.log({ name, email })
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     updateUser({ name, email })
       .then(userData => {
         // setCurrentUser(userData)
@@ -207,7 +205,9 @@ function App() {
         setInfoTooltipOpen(true)
         setIsAuthSuccess(false)
       })
-      .finally(() => setIsSubmitting(false))
+      .finally(() =>
+        setTimeout(() => setIsSubmitting(false), 3000) // <<<=====================
+      )
   }
 
   // результат поиска фильмов
@@ -227,6 +227,8 @@ function App() {
 
   return (
     <CurrentUser.Provider value={currentUser}>
+
+      {isSubmitting && <Preloader />}
 
       <div className='app'>
 
@@ -277,8 +279,6 @@ function App() {
 
         {withFooterURL.includes(location.pathname) && <Footer />}
 
-        {isSubmitting && <Preloader />}
-
         {
           infoTooltipOpen &&
           <InfoTooltip
@@ -291,7 +291,7 @@ function App() {
 
       </div>
     </CurrentUser.Provider>
-  );
+  )
 }
 
-export default App;
+export default App

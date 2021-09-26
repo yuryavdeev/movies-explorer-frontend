@@ -1,5 +1,5 @@
-import React from 'react';
-import './AboutProject.css';
+import React from 'react'
+import './AboutProject.css'
 
 const AboutProject = React.memo(() => {
     return (
@@ -40,6 +40,6 @@ const AboutProject = React.memo(() => {
 
         </section>
     )
-});
+})
 
-export default AboutProject;
+export default AboutProject

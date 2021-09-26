@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
-import './Main.css';
-import Header from '../Header/Header';
-import Promo from '../Promo/Promo';
-import NavTab from '../NavTab/NavTab';
-import AboutProject from '../AboutProject/AboutProject';
-import Techs from '../Techs/Techs';
-import AboutMe from '../AboutMe/AboutMe';
+import './Main.css'
+import Header from '../Header/Header'
+import Promo from '../Promo/Promo'
+import NavTab from '../NavTab/NavTab'
+import AboutProject from '../AboutProject/AboutProject'
+import Techs from '../Techs/Techs'
+import AboutMe from '../AboutMe/AboutMe'
 
 const Main = React.memo(() => {
     return (
@@ -19,6 +19,6 @@ const Main = React.memo(() => {
             <AboutMe />
         </section>
     )
-});
+})
 
-export default Main;
+export default Main

@@ -96,6 +96,7 @@
     line-height: 1.2;
     cursor: pointer;
     padding: 0;
+    outline: none;
 }
 
 .profile__submit_color {
@@ -114,7 +115,7 @@
     cursor: auto;
  }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .profile {
         padding: 236px 0 269px;
     }
@@ -124,7 +125,7 @@
     }
 }
 
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 1024px) {
     .profile {
         padding: 74px 0 70px;
     }

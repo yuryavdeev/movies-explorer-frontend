@@ -1,6 +1,6 @@
 .search-container {
     width: calc(100% - 20px);
-    max-width: 700px;
+    max-width: 600px;
     margin: 80px auto 10px;
     padding-bottom: 109px;
     box-sizing: border-box;
@@ -59,6 +59,10 @@
     transition: opacity linear 0.3s;
 }
 
+.search__border-line {
+    display: none;
+}
+
 .search__label-checkbox {
     display: flex;
     flex-direction: row-reverse;
@@ -84,7 +88,7 @@
     width: 1px;
     height: 1px;
     overflow: hidden; 
-    clip: rect(0 0 0 0);
+    clip: rect(0, 0, 0, 0);
 }
 
 /*селектор первого соседа через символ + */
@@ -99,12 +103,11 @@
 
 .search__checkbox:checked + .search__checkbox-visible {
     background: url('../../images/tumb-on.svg') #343434 36px no-repeat;
-    background-position: center right 2px;
+    background-position: center;
 }
 
 
-
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 660px) {
     .search-container {
         width: calc(100% - 60px);
         max-width: 1140px;
@@ -143,7 +146,13 @@
         color: #8B8B8B;
     }
 
-    .search__button {
+    .search__border-line {
+        display: block;
+        width: 1px;
+        height: 40px;
+        background-color: #505050;
+        border: none;
+        margin: 0 19px 0 19px;
     }
 
     .search__label-checkbox {
@@ -151,34 +160,22 @@
         line-height: 1.4;
         position: static;
         transform: translate(0, 0);
-        padding-left: 19px;
         box-sizing: border-box;
-        border-left: 1px solid #505050;
-        margin-left: 19px;
         height: 40px;
         align-items: center;
-    }
-
-    .search__checkbox {
-        margin-right: 15px;
     }
 }
 
 @media screen and (min-width: 1024px) {
     .search-container {
-        width: calc(100% - 140px);
         padding-bottom: 69px;
     }
 
     .search__form {
-        padding: 16px 30px 16px 63px;
+        padding: 16px 30px 16px 25px;
     }
 
-    .search__label-checkbox {
-        padding-left: 29px;
-    }
-
-    .search__checkbox {
-        margin-right: 14px;
+    .search__border-line {
+        margin: 0 29px 0 19px;
     }
 }

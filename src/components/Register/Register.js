@@ -1,5 +1,5 @@
 import React from 'react'
-import Access from '../Access/Access';
+import Access from '../Access/Access'
 
 const Register = React.memo(({ handleRegistrationSubmit }) => {
 
@@ -16,7 +16,7 @@ const Register = React.memo(({ handleRegistrationSubmit }) => {
             isRegistrated={isRegistrated}
             link={link}
         />
-    );
-});
+    )
+})
 
-export default Register;
+export default Register

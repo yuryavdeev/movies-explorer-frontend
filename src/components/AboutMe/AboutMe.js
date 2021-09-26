@@ -1,6 +1,6 @@
-import React from 'react';
-import './AboutMe.css';
-import GridArea from '../GridArea/GridArea';
+import React from 'react'
+import './AboutMe.css'
+import GridArea from '../GridArea/GridArea'
 
 
 const AboutMe = React.memo(() => {
@@ -12,6 +12,6 @@ const AboutMe = React.memo(() => {
             <GridArea />         
         </section >
     )
-});
+})
 
-export default AboutMe;
+export default AboutMe
