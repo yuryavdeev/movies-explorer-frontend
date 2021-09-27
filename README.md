@@ -1,7 +1,8 @@
 # movies-explorer-frontend    
 https://avdeev.movies.nomoredomains.monster    
 
-Фронтенд часть приложения Movies Eexplorer.   
+Фронтенд часть приложения Movies Explorer.    
+Работа выполнена как часть дипломного проекта в Яндекс.Практикуме.    
 
 ## Функциональность    
 - регистрация и авторизация пользователя,    
