@@ -1,0 +1,151 @@
+.project {
+    width: calc(100% - 36px);
+    max-width: 560px;
+    margin: 70px auto;
+}
+
+.project__title {
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -.04em;
+    margin: 0;
+    padding: 0 0 28px 0;
+}
+
+/* список - описание */
+.project__about-list {
+    width: 100%;
+    margin: 60px auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 56px;
+}
+
+.project__about-list-item {
+    list-style-type: none;
+}
+
+.project__about-list-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+}
+
+.project__about-list-text {
+    margin: 16px 0 0 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* список - сроки */
+.project__terms-list {
+    display: flex;
+    margin: 0%;
+    padding: 0;
+}
+
+.project__terms-list-item {
+    list-style-type: none;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.project__terms-list-item:first-of-type {
+    width: calc(100% - 184px);
+    max-width: 120px;
+    flex-grow: 0;
+}
+
+.project__terms-list-term {
+    padding: 11px 0;
+    background-color: #303030;
+}
+
+.project__terms-list-term_color {
+    color: #000;
+    background-color: #3DDC84;
+}
+
+.project__terms-list-description {
+    margin: 10px 0 0 0;
+    color: #A0A0A0;
+}
+
+
+@media screen and (min-width: 660px) {
+    .project {
+        width: calc(100% - 100px);
+        max-width: 1140px;
+        margin: 90px auto;
+    }
+
+    .project__title {
+        font-size: 22px;
+        padding: 0 0 23px 0;
+    }
+
+    .project__about-list {
+        margin: 70px auto 93px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .project__about-list-title {
+        font-size: 20px;
+    }
+    
+    .project__about-list-text {
+        margin: 22px 0 0 0;
+        font-size: 12px;
+    }
+
+    .project__terms-list-item {
+        font-size: 14px;
+    }
+
+    .project__terms-list-term {
+        padding: 10px 0;
+    }
+
+    .project__terms-list-item:first-of-type {
+        width: calc(100% - 320px);
+        max-width: 140px;
+    }
+
+    .project__terms-list-description {
+        margin: 14px 0 0 0;
+    }
+}
+
+
+@media screen and (min-width: 800px) {
+    .project__terms-list-item:first-of-type {
+        width: calc(100% - 560px);
+        max-width: 228px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .project {
+        margin: 110px auto;
+    }
+
+    .project__about-list {
+        margin: 70px auto 110px;
+    }
+
+    .project__about-list-text {
+        margin: 26px 0 0 0;
+        font-size: 14px;
+    }
+}

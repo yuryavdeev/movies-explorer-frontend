@@ -1,0 +1,47 @@
+@keyframes move {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.popup {
+    display: flex;
+    opacity: 1;
+    transition: all .4s;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .3);
+    animation: move 1s;
+    z-index: 11;
+    width: 100%;
+}
+
+.popup__close {
+    background-image: url(../../images/plus.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 11;
+}
+
+.popup__close:hover {
+    opacity: .6;
+    transition: opacity linear 0.3s;
+}

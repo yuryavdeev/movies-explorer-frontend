@@ -1,0 +1,142 @@
+.movie {
+    width: 100%;
+    max-width: 360px;
+    margin: auto;
+    position: relative;
+}
+
+.movie__image {
+    width: 100%;
+    /* height: 168px; */
+    max-height: 190px;
+    /* background-size: contain; */
+    /* background-repeat: no-repeat; */
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.movie__image:hover {
+    opacity: .8;
+    transition: opacity linear 0.3s;
+}
+
+.movie__bottom-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin: 16px 0 0;
+}
+
+.movie__caption {
+    width: calc(100% - 60px);
+    max-width: 250px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.2;
+    margin: 0;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+.movie__duration {
+    min-width: 52px;
+    max-width: 52px;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: .9;
+    text-align: center;
+    margin: 0;
+    padding: 4px;
+    box-sizing: border-box;
+    color: #8B8B8B;
+    background-color: #2F2F2F;
+    border-radius: 3px;
+}
+
+.movie__favorites {
+    height: 21px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.movie__favorites:hover {
+    opacity: .8;
+    transition: opacity linear 0.3s;
+}
+
+.movie__favorites_true {
+    width: 21px;
+    background-image: url('../../images/favorites-on.svg');
+}
+
+.movie__favorites_delete {
+    width: 21px;
+    background-image: url('../../images/favorites-delete.svg');
+}
+
+.movie__favorites_false {
+    width: 72px;
+    height: 21px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: .9;
+    background: #313131;
+    border-radius: 30px;
+}
+
+.movie__favorites_hidden {
+    display: none;
+}
+
+@media screen and (min-width: 660px) {
+    .movie__image {
+        max-height: 190px;
+    }
+
+    .movie__bottom-container {
+        margin: 25px 0 0;
+    }
+
+    .movie__caption {
+        font-size: 13px;
+    }
+    
+    .movie__duration {
+        font-size: 10px;
+    }
+
+    .movie__favorites {
+        top: 14px;
+        right: 14px;
+    }
+
+    .movie__favorites_delete,
+    .movie__favorites_false {
+        display: none;
+    }
+
+    .movie__favorites_delete-active,
+    .movie__favorites_false-active {
+        display: block;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .movie__image {
+        max-height: 201px;
+    }
+
+    .movie__bottom-container {
+        margin: 14px 0 0;
+    }
+}

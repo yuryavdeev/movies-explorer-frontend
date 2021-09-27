@@ -1,0 +1,181 @@
+.search-container {
+    width: calc(100% - 20px);
+    max-width: 600px;
+    margin: 80px auto 10px;
+    padding-bottom: 109px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #424242;
+    position: relative;
+}
+
+.search__form {
+    width: 100%;
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 9px;
+    padding: 19px 19px;
+    box-sizing: border-box;
+    background-color: #222222;
+}
+
+.search__label-input {
+    width: 100%;
+}
+
+.search__input {
+    width: calc(100% - 46px);
+    height: 34px;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #8B8B8B;
+    background-color: #222222;
+    /* box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08); */
+    border-radius: 2px;
+    border: none;
+}
+
+.search__input:focus {
+    outline: none;
+    border: 1px solid #424242;
+}
+
+.search__button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.search__button:hover {
+    opacity: .8;
+    transition: opacity linear 0.3s;
+}
+
+.search__border-line {
+    display: none;
+}
+
+.search__label-checkbox {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.6;
+    position: absolute;
+    bottom: 45px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+}
+
+.search__label-checkbox:hover {
+    opacity: .9;
+    transition: opacity linear 0.3s;
+}
+
+/* скрыл чекбокс */
+.search__checkbox {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden; 
+    clip: rect(0, 0, 0, 0);
+}
+
+/*селектор первого соседа через символ + */
+.search__checkbox + .search__checkbox-visible {
+    width: 36px;
+    height: 20px;
+    margin-right: 13px;
+    border-radius: 20px;
+    background: url('../../images/tumb-off.svg') #343434 16px no-repeat;
+    background-position: 2px center;
+}
+
+.search__checkbox:checked + .search__checkbox-visible {
+    background: url('../../images/tumb-on.svg') #343434 36px no-repeat;
+    background-position: center;
+}
+
+
+@media screen and (min-width: 660px) {
+    .search-container {
+        width: calc(100% - 60px);
+        max-width: 1140px;
+        padding-bottom: 109px;
+    }
+
+    .search__form {
+        padding: 16px 20px 16px 25px;
+        /* padding: 16px 20px 16px 63px;
+        background-image:url('../../images/find-simple.svg'); 
+        background-repeat: no-repeat; 
+        background-position: 25px center;
+        background-size: 22px; */
+    }
+
+    .search__input {
+        font-size: 18px;
+        line-height: 1.1;
+    }
+
+    .search__input::placeholder {
+        background-image:url('../../images/find-simple.svg'); 
+        background-repeat: no-repeat; 
+        background-position: 0 center;
+        background-size: 22px;
+        padding-left: 38px;
+        color: #8B8B8B;
+    }
+    
+    .search__input::-ms-input-placeholder {
+        background-image:url('../../images/find-simple.svg'); 
+        background-repeat: no-repeat; 
+        background-position: 0 center;
+        background-size: 22px;
+        padding-left: 38px;
+        color: #8B8B8B;
+    }
+
+    .search__border-line {
+        display: block;
+        width: 1px;
+        height: 40px;
+        background-color: #505050;
+        border: none;
+        margin: 0 19px 0 19px;
+    }
+
+    .search__label-checkbox {
+        font-size: 13px;
+        line-height: 1.4;
+        position: static;
+        transform: translate(0, 0);
+        box-sizing: border-box;
+        height: 40px;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .search-container {
+        padding-bottom: 69px;
+    }
+
+    .search__form {
+        padding: 16px 30px 16px 25px;
+    }
+
+    .search__border-line {
+        margin: 0 29px 0 19px;
+    }
+}
