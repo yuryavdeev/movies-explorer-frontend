@@ -1,43 +1,59 @@
+// const apiURL = 'https://api.avdeev.movies.nomoredomains.monster';
+const apiURL = 'http://localhost:3000';
+
+
 const checkResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status} - ${res.statusText}`);
 }
 
 export const register = async ({ name, email, password }) => {
-    console.log(`роут /signup`)
-    // const res = await fetch(`.../signup`, {
-    //     credentials: "include",
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         name: name,
-    //         email: email,
-    //         password: password
-    //     })
-    // });
-    // return checkResponse(res);
+    console.log(`роут /signup`) // xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    const res = await fetch(`${apiURL}/signup`, {
+        credentials: "include",
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password
+        })
+    });
+    return checkResponse(res);
 }
 
 export const authorize = async ({ email, password }) => {
-    console.log(`роут /signin`)
-    // const res = await fetch(` .../signin`, {
-    //     credentials: "include",
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         email: email,
-    //         password: password
-    //     })
-    // });
-    // return checkResponse(res);
+    console.log(`роут /signin`) // xxxxxxxxxxxxxxxxxxxxxxx
+    const res = await fetch(` ${apiURL}/signin`, {
+        credentials: "include",
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+    return checkResponse(res);
+}
+
+export const deleteAuth = async () => {
+    console.log('роут /signout') // xxxxxxx
+    const res = await fetch(`.../signout`, {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    return checkResponse(res);
 }
 
 export const findMovies = async (queryString) => {
     console.log(`роут /movies + ${queryString}`)
-    // const res = await fetch(`.../movies`, {
+    // const res = await fetch(`${apiURL}/movies`, {
     //     credentials: 'include',
     //     method: 'POST',
     //     headers: {
@@ -52,7 +68,7 @@ export const findMovies = async (queryString) => {
 
 export const getMyMovies = async () => {
     console.log('роут /my/movies')
-    // const res = await fetch(`.../my/movies`, {
+    // const res = await fetch(`${apiURL}/my/movies`, {
     //     credentials: 'include',
     //     method: 'GET',
     //     headers: {
@@ -78,30 +94,19 @@ export const getMyMovies = async () => {
 // }
 
 
-export const deleteAuth = async () => {
-    console.log('роут /signout')
-    // const res = await fetch(`.../signout`, {
-    //     credentials: 'include',
-    //     method: 'DELETE',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }
-    // });
-    // return checkResponse(res);
-}
 
 export const updateUser = async ({ name, email }) => {
-    console.log('роут /me')
-    // const res = await fetch(`.../me`, {
-    //     credentials: 'include',
-    //     method: 'PATCH',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //         name: name,
-    //         email: email
-    //     })
-    // })
-    // return checkResponse(res)
+    console.log('роут + /users/me')
+    const res = await fetch(`/users/me`, {
+        credentials: 'include',
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email
+        })
+    })
+    return checkResponse(res)
 }
