@@ -120,15 +120,15 @@ function App() {
 
   const history = useHistory()
   const location = useLocation() // или > { pathname } = useLocation()
-  // const [loggedIn, setLoggedIn] = React.useState(false)
+  const [loggedIn, setLoggedIn] = React.useState(false)
   const withFooterURL = ['/', '/movies', '/saved-movies']
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isAuthSuccess, setIsAuthSuccess] = React.useState(false)
   const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
   const [moviesList, setMoviesList] = React.useState(moviesTest)
 
-  const [currentUser, setCurrentUser] = React.useState({ name: 'Юрий', email: 'test@test.com' }) // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  // const [currentUser, setCurrentUser] = React.useState() // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // const [currentUser, setCurrentUser] = React.useState({ name: 'Юрий', email: 'test@test.com' }) // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  const [currentUser, setCurrentUser] = React.useState({}) // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   const closePopup = () => {
     setInfoTooltipOpen(false)
@@ -138,7 +138,8 @@ function App() {
   const handleRegistrationSubmit = ({ name, email, password }) => {
     setIsSubmitting(true)
     register({ name, email, password })
-      .then(() => {
+      .then((userData) => {
+        console.log(userData)
         setInfoTooltipOpen(true)
         setIsAuthSuccess(true)
         history.push('/signin')
@@ -158,10 +159,12 @@ function App() {
   const handleLoginSubmit = ({ email, password }) => {
     setIsSubmitting(true)
     authorize({ email, password })
-      .then((data) => {
-        // console.log(data)
-        // setLoggedIn(true)
-        // localStorage.setItem('isAuth', true) // маркер - true/false
+      .then((userData) => {
+        console.log(userData)
+        setCurrentUser({name: userData.name, email: userData.email})
+
+        setLoggedIn(true)
+        localStorage.setItem('isAuth', true) // маркер - true/false
         history.push('/')
       })
       .catch((err) => {
@@ -170,6 +173,9 @@ function App() {
         setIsAuthSuccess(false)
       })
       .finally(() => setIsSubmitting(false))
+      console.log(localStorage)
+      console.log(currentUser)
+
   }
 
   // выйти из аккаунта
@@ -180,8 +186,8 @@ function App() {
         // console.log(data)
         setCurrentUser({})
         history.push('/')
-        // setLoggedIn(false)
-        // localStorage.removeItem('isAuth') // маркер - true/false
+        setLoggedIn(false)
+        localStorage.removeItem('isAuth') // маркер - true/false
       })
       .catch((err) => {
         console.log(err)
@@ -198,7 +204,7 @@ function App() {
     setIsSubmitting(true)
     updateUser({ name, email })
       .then(userData => {
-        // setCurrentUser(userData)
+        setCurrentUser(userData)
       })
       .catch((err) => {
         console.log(err)
