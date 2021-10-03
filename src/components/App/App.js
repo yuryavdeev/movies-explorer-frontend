@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
 import './App.css'
+import ProtectedRoute from '../ProtectedRoute';
 import { CurrentUser } from '../../contexts/CurrentUserContext'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
@@ -13,7 +14,7 @@ import SavedMovies from '../MoviesSaved/MoviesSaved'
 import Profile from '../Profile/Profile'
 import PageNotFound from '../PageNotFound/PageNotFound'
 import Preloader from '../Preloader/Preloader'
-import { deleteAuth, updateUser, register, authorize, findMovies } from '../../utils/api'
+import { register, authorize, deleteAuth, getUser, updateUser } from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import UnionV from '../../images/union-v.svg'
 import UnionX from '../../images/union-x.svg'
@@ -22,7 +23,6 @@ import UnionX from '../../images/union-x.svg'
 import movie1 from '../../images/movie1.svg'
 import movie2 from '../../images/movie2.svg'
 import movie3 from '../../images/movie3.svg'
-import movie4 from '../../images/movie4.svg'
 
 const moviesTest = [
   {
@@ -47,88 +47,80 @@ const moviesTest = [
     url: movie3,
   },
   {
-    _id: 131,
-    name: 'Gimme Danger: История Игги и The S Игги и The S',
-    duration: '150',
-    saved: false,
-    url: movie4,
-  },
-  {
-    _id: 434,
-    name: '44 слова о дизайне',
-    duration: '200',
-    saved: false,
-    url: movie1,
-  },
-  {
-    _id: 333,
-    name: 'Киноальманах «100 лет дизайна»',
-    duration: '77',
-    saved: true,
-    url: movie2,
-  },
-  {
-    _id: 222,
+    _id: 22,
     name: 'В погоне за Бенкси',
     duration: '100',
     saved: false,
     url: movie3,
   },
   {
-    _id: 121,
-    name: 'Gimme Danger: История Игги и The S Игги и The S',
-    duration: '150',
-    saved: false,
-    url: movie4,
-  },
-  {
-    _id: 414,
-    name: '44 слова о дизайне',
-    duration: '200',
-    saved: true,
-    url: movie1,
-  },
-  {
-    _id: 313,
+    _id: 33,
+    id: 2332902,
     name: 'Киноальманах «100 лет дизайна»',
     duration: '77',
     saved: false,
     url: movie2,
-  },
-  {
-    _id: 122,
-    name: 'В погоне за Бенкси',
-    duration: '100',
-    saved: false,
-    url: movie3,
-  },
-  {
-    _id: 111,
-    name: 'Gimme Danger: История Игги и The S Игги и The S',
-    duration: '150',
-    saved: true,
-    url: movie4,
   },
 ]
-
-const myMoviesTest = moviesTest.filter(movie =>
-  movie.saved
-)
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 function App() {
 
   const history = useHistory()
   const location = useLocation() // или > { pathname } = useLocation()
-  // const [loggedIn, setLoggedIn] = React.useState(false)
+  const [currentUser, setCurrentUser] = React.useState()
+  const [loggedIn, setLoggedIn] = React.useState(false)
   const withFooterURL = ['/', '/movies', '/saved-movies']
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isAuthSuccess, setIsAuthSuccess] = React.useState(false)
   const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
-  const [moviesList, setMoviesList] = React.useState(moviesTest)
+  // const [mainMoviesList, setMainMoviesList] = React.useState([])
+  
 
-  const [currentUser, setCurrentUser] = React.useState({ name: 'Юрий', email: 'test@test.com' }) // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  // const [currentUser, setCurrentUser] = React.useState() // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+// console.log([...new Set(moviesTest)])
+
+
+// console.log(moviesTest.indexOf({
+//   _id: 22,
+//   name: 'В погоне за Бенкси',
+//   duration: '100',
+//   saved: false,
+//   url: movie3,
+// }))
+
+
+  // авторизация при входе
+  React.useEffect(() => {
+    if (localStorage.isAuth) {
+      getUser()
+        .then((userData) => {
+          setLoggedIn(true); // xxxxxxxxxxxxxxxxxxxxxxxx ЗАЧЕМ
+          setCurrentUser(userData); 
+          // history.push('/') // wwwwwwwwwwwwww отд. ф-ю
+        })
+        .catch(err => {
+          console.log(err);
+          history.push('/signin')
+        })
+    }
+  }, []);
+
+  // // изм списка всех фильмов
+  // React.useEffect(() => {
+  //   localStorage.moviesList && setMainMoviesList(JSON.parse(localStorage.getItem('moviesList')))
+  //   console.log('App - переписал основной список')
+  // }, [window.onstorage]);
+
+  // React.useEffect(() => {
+  //   if (loggedIn) {
+  //     getUser()
+  //       .then((userData) => {
+  //         setCurrentUser(userData);
+  //       })
+  //       .catch(err => console.log(err))
+  //   }
+  // }, [loggedIn]);
 
   const closePopup = () => {
     setInfoTooltipOpen(false)
@@ -138,10 +130,12 @@ function App() {
   const handleRegistrationSubmit = ({ name, email, password }) => {
     setIsSubmitting(true)
     register({ name, email, password })
-      .then(() => {
+      .then((userData) => {
+        console.log(userData)
         setInfoTooltipOpen(true)
         setIsAuthSuccess(true)
-        history.push('/signin')
+        setCurrentUser(userData);
+        history.push('/movies')
         setTimeout(() => setInfoTooltipOpen(false), 3000)
       })
       .catch((err) => {
@@ -158,11 +152,12 @@ function App() {
   const handleLoginSubmit = ({ email, password }) => {
     setIsSubmitting(true)
     authorize({ email, password })
-      .then((data) => {
-        // console.log(data)
-        // setLoggedIn(true)
-        // localStorage.setItem('isAuth', true) // маркер - true/false
-        history.push('/')
+      .then((userData) => {
+        console.log(userData)
+        setLoggedIn(true)
+        setCurrentUser(userData);
+        localStorage.setItem('isAuth', true) // маркер - true/false
+        history.push('/movies')
       })
       .catch((err) => {
         console.log(err)
@@ -177,11 +172,12 @@ function App() {
     setIsSubmitting(true)
     deleteAuth()
       .then((data) => {
-        // console.log(data)
-        setCurrentUser({})
+        console.log(data)
+        setLoggedIn(false)
+        setCurrentUser()
         history.push('/')
-        // setLoggedIn(false)
-        // localStorage.removeItem('isAuth') // маркер - true/false
+        localStorage.removeItem('isAuth') // маркер - true/false
+        localStorage.removeItem('moviesList') // - или по истечении ВРЕМЕНИ
       })
       .catch((err) => {
         console.log(err)
@@ -198,7 +194,7 @@ function App() {
     setIsSubmitting(true)
     updateUser({ name, email })
       .then(userData => {
-        // setCurrentUser(userData)
+        setCurrentUser(userData)
       })
       .catch((err) => {
         console.log(err)
@@ -210,20 +206,6 @@ function App() {
       )
   }
 
-  // результат поиска фильмов
-  const handleSubmitSearchFormMovies = (queryString) => {
-    setIsSubmitting(true)
-    findMovies(queryString)
-      .then((arrayWithMovies) => {
-        // setMoviesList(arrayWithMovies)
-      })
-      .catch((err) => {
-        console.log(err)
-        setInfoTooltipOpen(true)
-        setIsAuthSuccess(false)
-      })
-      .finally(() => setIsSubmitting(false))
-  }
 
   return (
     <CurrentUser.Provider value={currentUser}>
@@ -236,28 +218,34 @@ function App() {
 
           <Route exact path='/'>
             <Main
+              loggedIn={loggedIn}
             />
           </Route>
 
-          <Route exact path='/movies'>
-            <Movies
-              moviesList={moviesList}
-              handleSubmitSearchForm={handleSubmitSearchFormMovies}
+          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx effect - на загрузку филмов это должен убрать - ?
+            <ProtectedRoute exact path='/movies'
+              component={Movies}
+              loggedIn={loggedIn}
+              // mainMoviesList={mainMoviesList}
             />
-          </Route>
+          }
 
-          <Route exact path='/saved-movies'>
-            <SavedMovies
-              moviesList={myMoviesTest}
+          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx
+            <ProtectedRoute exact path='/saved-movies'
+              component={SavedMovies}
+              loggedIn={loggedIn}
+            // moviesList={myMoviesTest}
             />
-          </Route>
+          }
 
-          <Route exact path='/profile'>
-            <Profile
+          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx
+            <ProtectedRoute exact path='/profile'
+              component={Profile}
+              loggedIn={loggedIn}
               handleLogout={handleLogout}
               handleSubmitUpdateUser={handleSubmitUpdateUser}
             />
-          </Route>
+          }
 
           <Route exact path='/signin'>
             <Login
@@ -282,7 +270,6 @@ function App() {
         {
           infoTooltipOpen &&
           <InfoTooltip
-            popupIsOpen={infoTooltipOpen}
             closePopup={closePopup}
             icon={isAuthSuccess ? UnionV : UnionX}
             notification={isAuthSuccess ? 'Всё успешно!' : 'Что-то пошло не так...'}

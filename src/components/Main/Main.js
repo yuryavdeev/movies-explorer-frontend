@@ -8,10 +8,12 @@ import AboutProject from '../AboutProject/AboutProject'
 import Techs from '../Techs/Techs'
 import AboutMe from '../AboutMe/AboutMe'
 
-const Main = React.memo(() => {
+const Main = React.memo(({ loggedIn }) => {
     return (
         <section className='main'>
-            <Header />
+            <Header
+                loggedIn={loggedIn}
+            />
             <Promo />
             <NavTab />
             <AboutProject />

@@ -5,13 +5,11 @@ import logo from '../../images/logo.svg'
 import menuImage from '../../images/icon-menu.svg'
 import Navigation from '../Navigation/Navigation'
 import Popup from '../Popup/Popup'
-import { CurrentUser } from '../../contexts/CurrentUserContext'
 
-const Header = React.memo(() => {
+const Header = React.memo(({loggedIn}) => {
 
     const location = useLocation() // или > { pathname } = useLocation()
     const history = useHistory()
-    const currentUser = React.useContext(CurrentUser)
 
     const [navigationPopup, setNavigationPopup] = React.useState(false)
     const resolution = window.matchMedia('(min-width: 800px)') // медиа-запрос в конст., возвр. объект
@@ -40,7 +38,7 @@ const Header = React.memo(() => {
             <div className='header__wrap'>
                 <img className='header__logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
                 {
-                    !currentUser ?
+                    !loggedIn ?
                         <nav className='header__nav-container'>
                             <Link to='/signup' className='header__link_word' target='_self'>Регистрация</Link>
                             <Link to='/signin' className='header__link_button' target='_self'>Войти</Link>

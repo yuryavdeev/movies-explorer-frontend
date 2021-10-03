@@ -4,7 +4,7 @@ import Header from '../Header/Header'
 import { CurrentUser } from '../../contexts/CurrentUserContext'
 
 
-const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
+const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) => {
 
     const currentUser = React.useContext(CurrentUser)
     const [buttonDisabled, setButtonDisabled] = React.useState(false) // при загрузке исправить на true
@@ -14,9 +14,8 @@ const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
     const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false) // ошибка результата запроса
 
     React.useEffect(() => {
-        currentUser &&
-            setName(currentUser.name)
-            setEmail(currentUser.email)
+        setName(currentUser.name)
+        setEmail(currentUser.email)
     }, [currentUser])
 
     const handleClick = (evt) => {
@@ -34,7 +33,9 @@ const Profile = React.memo(({ handleSubmitUpdateUser, handleLogout }) => {
 
     return (
         <>
-            <Header />
+            <Header
+                loggedIn={loggedIn}
+            />
             <section className='profile'>
                 <h2 className='profile__title'>Привет, {name}!</h2>
 

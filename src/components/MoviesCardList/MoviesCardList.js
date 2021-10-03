@@ -4,29 +4,111 @@ import { useLocation } from 'react-router'
 import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 
-const MoviesCardList = React.memo(({ moviesList }) => {
+const MoviesCardList = React.memo(({ moviesList, message, handleClickDeleteMovie }) => {
 
     const location = useLocation()
+    const [moviesToRender, setMoviesToRender] = React.useState([])
+    const [buttonVisible, setButtonVisible] = React.useState(true)
+    const [numbers, setNumbers] = React.useState(0)
+    const [screenWidth, setScreenWidth] = React.useState(window.innerWidth)
+
+    // console.log(screenWidth)
+    // console.log(moviesList.length)
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth)
+        }
+
+        location.pathname === '/movies' &&
+            window.addEventListener('resize', handleResize)
+
+        return () => window.removeEventListener('resize', handleResize)
+    }, [location.pathname])
+
+
+    React.useEffect(() => {
+        setButtonVisible(true)
+
+        location.pathname === '/saved-movies'
+            ?
+            setNumbers(moviesList.length)
+            :
+            setNumbers(
+                (screenWidth >= 1137) ?
+                    3
+                    :
+                    (screenWidth < 768) ?
+                        1
+                        :
+                        2
+            )
+    }, [moviesList])
+
+    // numbers на первой загрузке и увеличении ширины экрана (! - слушатель) => отрисовать мин (3, 2, 1) или макс (своё значение)
+    React.useEffect(() => {
+        location.pathname === '/movies'
+            &&
+            setNumbers(
+                screenWidth >= 1137 ?
+                    Math.max(3, numbers)
+                    :
+                    screenWidth < 768 ?
+                        numbers
+                        :
+                        Math.max(2, numbers)
+            )
+    }, [screenWidth])
+
+
+    React.useEffect(() => {
+
+        setMoviesToRender(
+            moviesList.slice(0, numbers).map(movie =>
+                <MoviesCard
+                    key= //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                    {
+                        location.pathname === '/saved-movies' ?
+                            movie._id
+                            :
+                            movie.id
+                    }
+                    movie={movie}
+                    handleClickDeleteMovie={handleClickDeleteMovie}
+                />
+            )
+        )
+
+        moviesList.length <= numbers && setButtonVisible(false)
+        
+    }, [moviesList, numbers])
+
 
     const addMoviesToScreen = () => {
-        console.log('Плюс 4 строки')
+        setNumbers(
+            screenWidth >= 1137 ?
+                numbers + 3
+                // : screenWidth < 768 ?
+                //     numbers + 1
+                :
+                numbers + 2
+        )
     }
 
-    const movies = moviesList.slice(0, 6).map(movie => {
-        // movie.visible = false
-        return <MoviesCard
-            key={movie._id}  // React
-            movie={movie}
-        />
-    })
 
     return (
         <section className='movies-card-list'>
-            <div className='movies-card-list__grid'>
-                {movies}
-            </div>
             {
-                location.pathname === '/movies' &&
+                message ?
+                    <p className="movies-card-list__message">{message}</p>
+                    :
+                    <div className='movies-card-list__grid'>
+                        {moviesToRender}
+                    </div>
+            }
+            {
+                buttonVisible &&
+                !message &&
                 <button className='movies-card-list__button' onClick={addMoviesToScreen}>Ещё</button>
             }
         </section>
