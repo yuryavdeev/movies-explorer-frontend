@@ -7,7 +7,6 @@ import { CurrentUser } from '../../contexts/CurrentUserContext'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
 import Footer from '../Footer/Footer'
-// import Header from '../Header/Header'
 import Main from '../Main/Main'
 import Movies from '../Movies/Movies'
 import SavedMovies from '../MoviesSaved/MoviesSaved'
@@ -19,85 +18,34 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import UnionV from '../../images/union-v.svg'
 import UnionX from '../../images/union-x.svg'
 
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-import movie1 from '../../images/movie1.svg'
-import movie2 from '../../images/movie2.svg'
-import movie3 from '../../images/movie3.svg'
-
-const moviesTest = [
-  {
-    _id: 44,
-    name: '44 слова о дизайне',
-    duration: '200',
-    saved: true,
-    url: movie1,
-  },
-  {
-    _id: 33,
-    name: 'Киноальманах «100 лет дизайна»',
-    duration: '77',
-    saved: false,
-    url: movie2,
-  },
-  {
-    _id: 22,
-    name: 'В погоне за Бенкси',
-    duration: '100',
-    saved: false,
-    url: movie3,
-  },
-  {
-    _id: 22,
-    name: 'В погоне за Бенкси',
-    duration: '100',
-    saved: false,
-    url: movie3,
-  },
-  {
-    _id: 33,
-    id: 2332902,
-    name: 'Киноальманах «100 лет дизайна»',
-    duration: '77',
-    saved: false,
-    url: movie2,
-  },
-]
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 function App() {
 
   const history = useHistory()
-  const location = useLocation() // или > { pathname } = useLocation()
+  const location = useLocation()
   const [currentUser, setCurrentUser] = React.useState()
   const [loggedIn, setLoggedIn] = React.useState(false)
   const withFooterURL = ['/', '/movies', '/saved-movies']
   const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [isAuthSuccess, setIsAuthSuccess] = React.useState(false)
   const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
-  // const [mainMoviesList, setMainMoviesList] = React.useState([])
-  
+  const [messageErr, setMessageErr] = React.useState('')
 
-
-// console.log([...new Set(moviesTest)])
-
-
-// console.log(moviesTest.indexOf({
-//   _id: 22,
-//   name: 'В погоне за Бенкси',
-//   duration: '100',
-//   saved: false,
-//   url: movie3,
-// }))
-
+  // function isEmpty(obj) {
+  //   for (let key in obj) {
+  //     // если тело цикла начнет выполняться - значит в объекте есть свойства
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   // авторизация при входе
   React.useEffect(() => {
     if (localStorage.isAuth) {
       getUser()
         .then((userData) => {
+          console.log(userData)
           setLoggedIn(true); // xxxxxxxxxxxxxxxxxxxxxxxx ЗАЧЕМ
-          setCurrentUser(userData); 
-          // history.push('/') // wwwwwwwwwwwwww отд. ф-ю
+          setCurrentUser(userData);
+          history.push(location.pathname)
         })
         .catch(err => {
           console.log(err);
@@ -106,46 +54,27 @@ function App() {
     }
   }, []);
 
-  // // изм списка всех фильмов
-  // React.useEffect(() => {
-  //   localStorage.moviesList && setMainMoviesList(JSON.parse(localStorage.getItem('moviesList')))
-  //   console.log('App - переписал основной список')
-  // }, [window.onstorage]);
 
-  // React.useEffect(() => {
-  //   if (loggedIn) {
-  //     getUser()
-  //       .then((userData) => {
-  //         setCurrentUser(userData);
-  //       })
-  //       .catch(err => console.log(err))
-  //   }
-  // }, [loggedIn]);
-
-  const closePopup = () => {
-    setInfoTooltipOpen(false)
+  const openPopupErr = (err) => {
+    setInfoTooltipOpen(true)
+    setMessageErr(`В ответе на Ваш запрос сервером возвращена ошибка - ${err}`)
   }
+
 
   // регистрация пользователя
   const handleRegistrationSubmit = ({ name, email, password }) => {
     setIsSubmitting(true)
     register({ name, email, password })
-      .then((userData) => {
-        console.log(userData)
+      .then(() => {
         setInfoTooltipOpen(true)
-        setIsAuthSuccess(true)
-        setCurrentUser(userData);
-        history.push('/movies')
-        setTimeout(() => setInfoTooltipOpen(false), 3000)
+        setTimeout(() => {
+          handleLoginSubmit({ email, password })
+          setInfoTooltipOpen(false)
+        },
+          2000)
       })
-      .catch((err) => {
-        console.log(err)
-        setInfoTooltipOpen(true)
-        setIsAuthSuccess(false)
-      })
-      .finally(() => {
-        setIsSubmitting(false)
-      })
+      .catch((err) => openPopupErr(err))
+      .finally(() => setIsSubmitting(false))
   }
 
   // авторизация пользователя
@@ -153,17 +82,12 @@ function App() {
     setIsSubmitting(true)
     authorize({ email, password })
       .then((userData) => {
-        console.log(userData)
         setLoggedIn(true)
         setCurrentUser(userData);
         localStorage.setItem('isAuth', true) // маркер - true/false
         history.push('/movies')
       })
-      .catch((err) => {
-        console.log(err)
-        setInfoTooltipOpen(true)
-        setIsAuthSuccess(false)
-      })
+      .catch((err) => openPopupErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
@@ -171,39 +95,37 @@ function App() {
   const handleLogout = () => {
     setIsSubmitting(true)
     deleteAuth()
-      .then((data) => {
-        console.log(data)
+      .then(() => {
         setLoggedIn(false)
         setCurrentUser()
         history.push('/')
-        localStorage.removeItem('isAuth') // маркер - true/false
-        localStorage.removeItem('moviesList') // - или по истечении ВРЕМЕНИ
+        localStorage.removeItem('isAuth')
+        // localStorage.removeItem('moviesList') // - или по истечении ВРЕМЕНИ
       })
-      .catch((err) => {
-        console.log(err)
-        setInfoTooltipOpen(true)
-        setIsAuthSuccess(false)
-      })
+      .catch((err) => openPopupErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
   // обновить данные пользователя
   const handleSubmitUpdateUser = ({ name, email }) => {
-    console.log({ name, email })
-
     setIsSubmitting(true)
     updateUser({ name, email })
       .then(userData => {
-        setCurrentUser(userData)
-      })
-      .catch((err) => {
-        console.log(err)
         setInfoTooltipOpen(true)
-        setIsAuthSuccess(false)
+        setCurrentUser(userData)
+        setTimeout(() => {
+          setInfoTooltipOpen(false)
+        },
+          2000)
       })
-      .finally(() =>
-        setTimeout(() => setIsSubmitting(false), 3000) // <<<=====================
-      )
+      .catch((err) => openPopupErr(err))
+      .finally(() => setIsSubmitting(false))
+  }
+
+
+  const closePopup = () => {
+    setInfoTooltipOpen(false)
+    setMessageErr('')
   }
 
 
@@ -215,54 +137,46 @@ function App() {
       <div className='app'>
 
         <Switch>
-
           <Route exact path='/'>
             <Main
               loggedIn={loggedIn}
             />
           </Route>
 
-          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx effect - на загрузку филмов это должен убрать - ?
-            <ProtectedRoute exact path='/movies'
-              component={Movies}
-              loggedIn={loggedIn}
-              // mainMoviesList={mainMoviesList}
-            />
-          }
+          <ProtectedRoute exact path='/movies'
+            component={Movies}
+            loggedIn={loggedIn}
+          />
 
-          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx
-            <ProtectedRoute exact path='/saved-movies'
-              component={SavedMovies}
-              loggedIn={loggedIn}
-            // moviesList={myMoviesTest}
-            />
-          }
+          <ProtectedRoute exact path='/saved-movies'
+            component={SavedMovies}
+            loggedIn={loggedIn}
+          />
 
-          {loggedIn &&  // при перезагрузке иначе - loggedIn = false xxxxxxxxxxxxxxxxxxxxx
-            <ProtectedRoute exact path='/profile'
-              component={Profile}
-              loggedIn={loggedIn}
-              handleLogout={handleLogout}
-              handleSubmitUpdateUser={handleSubmitUpdateUser}
-            />
-          }
+          <ProtectedRoute exact path='/profile'
+            component={Profile}
+            loggedIn={loggedIn}
+            handleLogout={handleLogout}
+            handleSubmitUpdateUser={handleSubmitUpdateUser}
+          />
 
           <Route exact path='/signin'>
             <Login
               handleLoginSubmit={handleLoginSubmit}
+              messageErr={messageErr}
             />
           </Route>
 
           <Route exact path='/signup'>
             <Register
               handleRegistrationSubmit={handleRegistrationSubmit}
+              messageErr={messageErr}
             />
           </Route>
 
           <Route path='*'>
             <PageNotFound />
           </Route>
-
         </Switch>
 
         {withFooterURL.includes(location.pathname) && <Footer />}
@@ -271,8 +185,8 @@ function App() {
           infoTooltipOpen &&
           <InfoTooltip
             closePopup={closePopup}
-            icon={isAuthSuccess ? UnionV : UnionX}
-            notification={isAuthSuccess ? 'Всё успешно!' : 'Что-то пошло не так...'}
+            icon={messageErr ? UnionX : UnionV}
+            notification={messageErr ? messageErr : 'Запрос выполнен успешно!'}
           />
         }
 

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router'
 import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 
-const MoviesCardList = React.memo(({ moviesList, message, handleClickDeleteMovie }) => {
+const MoviesCardList = React.memo(({ moviesList, message }) => {
 
     const location = useLocation()
     const [moviesToRender, setMoviesToRender] = React.useState([])
@@ -12,8 +12,6 @@ const MoviesCardList = React.memo(({ moviesList, message, handleClickDeleteMovie
     const [numbers, setNumbers] = React.useState(0)
     const [screenWidth, setScreenWidth] = React.useState(window.innerWidth)
 
-    // console.log(screenWidth)
-    // console.log(moviesList.length)
 
     React.useEffect(() => {
         const handleResize = () => {
@@ -66,21 +64,13 @@ const MoviesCardList = React.memo(({ moviesList, message, handleClickDeleteMovie
         setMoviesToRender(
             moviesList.slice(0, numbers).map(movie =>
                 <MoviesCard
-                    key= //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                    {
-                        location.pathname === '/saved-movies' ?
-                            movie._id
-                            :
-                            movie.id
-                    }
-                    movie={movie}
-                    handleClickDeleteMovie={handleClickDeleteMovie}
+                    key={movie.id}
+                    incomingMovie={movie}
                 />
             )
         )
-
         moviesList.length <= numbers && setButtonVisible(false)
-        
+
     }, [moviesList, numbers])
 
 

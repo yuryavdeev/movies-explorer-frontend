@@ -5,11 +5,10 @@ const checkResponse = (res) => {
     return res.ok ?
         res.json()
         :
-        Promise.reject(`Ошибка: ${res.status} - ${res.statusText}`);
+        Promise.reject(`код ${res.status}: ${res.statusText}`);
 }
 
 export const register = async ({ name, email, password }) => {
-    console.log(`роут /signup`) //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     const res = await fetch(`${apiURL}/signup`, {
         credentials: "include",
         method: 'POST',
@@ -26,7 +25,6 @@ export const register = async ({ name, email, password }) => {
 }
 
 export const authorize = async ({ email, password }) => {
-    console.log(`роут /signin`) //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     const res = await fetch(`${apiURL}/signin`, {
         credentials: "include",
         method: 'POST',
@@ -42,7 +40,6 @@ export const authorize = async ({ email, password }) => {
 }
 
 export const deleteAuth = async () => {
-    console.log('роут /signout') //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     const res = await fetch(`${apiURL}/signout`, {
         credentials: 'include',
         method: 'DELETE',
@@ -55,7 +52,6 @@ export const deleteAuth = async () => {
 
 
 export const getUser = async () => {
-    console.log('роут /users/me') //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     const res = await fetch(`${apiURL}/users/me`, {
         credentials: 'include',
         method: 'GET',
@@ -67,7 +63,6 @@ export const getUser = async () => {
 }
 
 export const updateUser = async ({ name, email }) => {
-    console.log('роут /users/me') //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     const res = await fetch(`${apiURL}/users/me`, {
         credentials: 'include',
         method: 'PATCH',
@@ -103,10 +98,10 @@ export const addToMyMoviesList = async (movie) => {
                 `https://api.nomoreparties.co${movie.image.url}`
                 :
                 movie.image,
-            thumbnail: !movie.thumbnail ?
-                `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
+            thumbnail: movie.thumbnail ?
+                movie.thumbnail
                 :
-                movie.thumbnail,
+                `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
         })
     })
     return checkResponse(res)

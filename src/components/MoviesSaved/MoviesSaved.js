@@ -19,37 +19,30 @@ const SavedMovies = React.memo(({ loggedIn }) => {
     const [isSubmitting, setIsSubmitting] = React.useState(false)
     const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
     const [queryString, setQueryString] = React.useState('')
-    const [mark, setMark] = React.useState(false)
     const [shortMoviesList, setShortMoviesList] = React.useState([])
     const [startSearch, setStartSearch] = React.useState(false)
 
-    // console.log(JSON.parse(localStorage.getItem('moviesSavedList'))) // <<<<<<<<<<<<<<<<<<<<<<<
-    // console.log(JSON.parse(localStorage.getItem('moviesList'))) // <<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    // console.log(shortMoviesList)
 
+    // при монтировании - в осн. стейт фильмы от API
     React.useEffect(() => {
-        console.log('ПЕРЕГРУЗ')
         setIsSubmitting(true)
         getMyMovies()
             .then((moviesArray) => {
                 setInitialMyMoviesList(moviesArray)
-                setMyMoviesList(moviesArray)
             })
             .catch(err => console.log(err))
             .finally(() => setIsSubmitting(false))
-    }, [mark])
+    }, [])
 
 
     // обработка запроса от формы поиска 
     React.useEffect(() => {
-        console.log(`${queryString}`)
         if (queryString) {
             const newList =
-                myMoviesList.filter((movie) =>
+                initialMyMoviesList.filter((movie) =>
                     movie && movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1
                 )
-            console.log(newList)
-            if (newList.length !== 0) {
+            if (newList.length) {
                 setMyMoviesList(newList)  // найденные фильмы в стейт
                 setMessage('')
             } else {
@@ -57,11 +50,11 @@ const SavedMovies = React.memo(({ loggedIn }) => {
             }
         }
         else {
+            setMyMoviesList(initialMyMoviesList)
             setMessage('')
         }
         setIsSubmitting(false)
     }, [startSearch, checkboxActive])
-
 
 
     // обработка чекбокса
@@ -81,14 +74,17 @@ const SavedMovies = React.memo(({ loggedIn }) => {
 
 
     const handleSubmitSearchForm = (query) => {
-        setMyMoviesList(initialMyMoviesList)
         setQueryString(query)
         setStartSearch(!startSearch)
     }
 
-    const handleClickDeleteMovie = () => {
-        setMark(!mark)
-    }
+
+    // для перерисовки ( - теперь - через сеттер - setMovie('') в MoviesCard)
+    // const updateMyLocalMoviesList = (savedMovie) => {
+    //     // начиная с () удалить 1 элемент и заменить его в mainMoviesList
+    //     setMyMoviesList(myMoviesList.splice(myMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)), 1, savedMovie)
+    // }
+
 
     const handleCheckboxChange = (isCheckboxOn) => {
         setCheckboxActive(isCheckboxOn)
@@ -125,9 +121,11 @@ const SavedMovies = React.memo(({ loggedIn }) => {
                             shortMoviesList.length ?
                                 shortMoviesList
                                 :
-                                myMoviesList
+                                myMoviesList.length ?
+                                    myMoviesList
+                                    :
+                                    initialMyMoviesList
                         }
-                        handleClickDeleteMovie={handleClickDeleteMovie}
                         message={message}
                     />
             }

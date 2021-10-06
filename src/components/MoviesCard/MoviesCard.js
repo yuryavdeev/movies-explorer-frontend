@@ -9,11 +9,11 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import UnionX from '../../images/union-x.svg'
 import { CurrentUser } from '../../contexts/CurrentUserContext'
 
-
-const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
+const MoviesCard = React.memo(({ incomingMovie }) => {
 
     const currentUser = React.useContext(CurrentUser)
     const location = useLocation()
+    const [movie, setMovie] = React.useState(incomingMovie)
     const [duration, setDuration] = React.useState('')
     const [saved, setSaved] = React.useState(movie.owner === currentUser._id)
     const [mouseOver, setMouseOver] = React.useState(false)
@@ -22,7 +22,8 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
     const [message, setMessage] = React.useState('')
     const [isSubmitting, setIsSubmitting] = React.useState(false)
     const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
-    const [validField, setValidField] = React.useState(true)
+    const [hasEmptyField, setHasEmptyField] = React.useState('')
+
 
     React.useEffect(() => {
         const dur = Number(movie.duration)
@@ -35,58 +36,48 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
     React.useEffect(() => {
         for (const key in movie) {
             if (movie[key] === '' || movie[key] === null) {
-                console.log(`Недопустимое поле фильма - ${key}`)
+                console.log(`Пустое поле фильма ${key} у фильма - ${movie.nameRU}`)
+                setHasEmptyField(key)
             }
-            else {
-                // movie.trailerLink
-                // &&
-                (movie.trailerLink.indexOf('http') === -1) // регулярку <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                    ?
-                    setMessage('К сожалению трейлер недоступен...')
-                    :
-                    (movie.trailerLink.indexOf('v=') > -1)
-                    &&
-                    setVideoUrlForPopup(movie.trailerLink.split('v=')[1])
-            }
+        }
+
+        if (movie.trailerLink) {
+            (movie.trailerLink.indexOf('http') === -1)
+                ?
+                setMessage('К сожалению трейлер недоступен...')
+                :
+                (movie.trailerLink.indexOf('v=') > -1)
+                &&
+                setVideoUrlForPopup(movie.trailerLink.split('v=')[1])
+
         }
     }, [])
 
 
-    const handleClick = () => {
-        console.log(movie)
-        setShowTrailer(true)
-    }
-
+    // при удалении или добавл. фильма в избранное
     const updateMainList = (savedMovie) => {
         const mainMoviesList = JSON.parse(localStorage.getItem('moviesList'))
         const updatedMovieIndex = mainMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)
-
-        // начиная с updatedMovieIndex удалить 1 элемент и заменить его в mainMoviesList
-        mainMoviesList.splice(updatedMovieIndex, 1, savedMovie);
-
-        console.log('обновил localStorage')
+        // начиная с updatedMovieIndex удалить 1 элемент и заменить его в mainMoviesList:
+        mainMoviesList.splice(updatedMovieIndex, 1, savedMovie)
         // обновил осн. список фильмов в localStorage
         localStorage.setItem('moviesList', JSON.stringify(mainMoviesList))
     }
 
+
     const clickSaved = () => {
-        for (const key in movie) {
-            if (movie[key] === '' || movie[key] === null) {
-                setValidField(false) // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< не успевает обновится!!!!!!!!!!!!!!!!!!!!!
-                console.log(`Недопустимое поле при сохранении фильма - ${key}`)
-                setInfoTooltipOpen(true)
-                setMessage('Ошибка при добавлении фильма')
-            }
-            else {
-                setValidField(true)
-            }
-        }
-        if (validField) {
+        if (hasEmptyField) {
+            console.log(`Недопустимое поле при сохранении фильма - ${hasEmptyField}`)
+            setInfoTooltipOpen(true)
+            setMessage('Ошибка при добавлении фильма')
+        } else {
             setIsSubmitting(true)
             addToMyMoviesList(movie)
                 .then((savedMovie) => {
                     setSaved(true)
+                    setMovie(savedMovie) // <<<<<<<<<<<<< при перепоиске беру initial... => не д.б. значка что сохранил..... разобраться....>>>>....{}
                     updateMainList(savedMovie)
+                    // console.log(savedMovie)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -95,7 +86,6 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
                 })
                 .finally(() => setIsSubmitting(false))
         }
-        setValidField(true)
     }
 
 
@@ -103,12 +93,14 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
         setIsSubmitting(true)
         deleteFromMyMoviesList(movie._id)
             .then((deletedMovie) => {
-                // console.log(deletedMovie)
                 const { owner, _id, __v, ...savedMovie } = deletedMovie // обновил объект карточки фильма без owner и _id
                 updateMainList(savedMovie)
-                console.log(savedMovie)
                 setSaved(false)
-                handleClickDeleteMovie()
+                location.pathname === '/saved-movies' ?
+                    setMovie('')
+                    :
+                    setMovie(savedMovie)
+                // console.log(savedMovie)
             })
             .catch((err) => {
                 console.log(err)
@@ -126,9 +118,12 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
     }
 
     return (
+        movie &&
         <section className='movie'>
 
-            {isSubmitting && <Preloader />}
+            {
+                isSubmitting && <Preloader />
+            }
 
             {
                 infoTooltipOpen &&
@@ -138,19 +133,16 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
                     notification={message}
                 />
             }
+
             {
                 (videoUrlForPopup || message) ?
                     <img
                         className='movie__image'
-                        onClick={handleClick}
+                        onClick={() => setShowTrailer(true)}
                         onMouseOver={() => setMouseOver(true)}
                         onMouseLeave={() => setMouseOver(false)}
-                        src={
-                            !movie.image.url ? // при обратном сохранении поля movie.image.url уже нет (api вернул movie.image)
-                                movie.image
-                                :
-                                `https://api.nomoreparties.co${movie.image.url}`
-                        }
+                        // при обратном сохранении api вернул movie.image без url
+                        src={movie.image.url ? `https://api.nomoreparties.co${movie.image.url}` : movie.image}
                         alt='карточка фильма'
                     />
                     :
@@ -159,74 +151,73 @@ const MoviesCard = React.memo(({ movie, handleClickDeleteMovie }) => {
                             className='movie__image'
                             onMouseOver={() => setMouseOver(true)}
                             onMouseLeave={() => setMouseOver(false)}
-                            src={
-                                location.pathname === '/saved-movies' ?
-                                    movie.image
-                                    :
-                                    `https://api.nomoreparties.co${movie.image.url}`
-                            }
+                            src={movie.image.url ? `https://api.nomoreparties.co${movie.image.url}` : movie.image}
                             alt='карточка фильма'
                         />
                     </a>
             }
+
             <div className='movie__bottom-container'>
                 <h3 className='movie__caption'>{movie.nameRU}</h3>
                 <p className='movie__duration'>{duration}</p>
             </div>
-            {
-                location.pathname === '/saved-movies' &&
-                <button
-                    className={`movie__favorites movie__favorites_delete ${mouseOver && 'movie__favorites_delete-active'}`}
-                    onMouseOver={() => setMouseOver(true)}
-                    onMouseLeave={() => setMouseOver(false)}
-                    onClick={clickDelete}
-                    aria-label='удаление из избранного'
-                >
-                </button>
-            }
 
             {
-                location.pathname === '/movies' &&
-                (saved ?
+                location.pathname === '/saved-movies' ?
                     <button
-                        className='movie__favorites movie__favorites_true'
+                        className={`movie__favorites movie__favorites_delete ${mouseOver && 'movie__favorites_delete-active'}`}
+                        onMouseOver={() => setMouseOver(true)}
+                        onMouseLeave={() => setMouseOver(false)}
                         onClick={clickDelete}
                         aria-label='удаление из избранного'
                     >
                     </button>
                     :
-                    <button
-                        className=
-                        {`movie__favorites movie__favorites_false ${mouseOver && 'movie__favorites_false-active'} ${saved && 'movie__favorites_hidden'}`}
-                        onMouseEnter={() => setMouseOver(true)}
-                        onClick={clickSaved}
-                        aria-label='добавить в избранное'
-                    >
-                        Сохранить
-                    </button>)
+                    saved ?
+                        <button
+                            className='movie__favorites movie__favorites_true'
+                            onClick={clickDelete}
+                            aria-label='удаление из избранного'
+                        >
+                        </button>
+                        :
+                        <button
+                            className=
+                            {`movie__favorites movie__favorites_false ${mouseOver && 'movie__favorites_false-active'} ${saved && 'movie__favorites_hidden'}`}
+                            onMouseOver={() => setMouseOver(true)}
+                            onClick={clickSaved}
+                            aria-label='добавить в избранное'
+                        >
+                            Сохранить
+                        </button>
             }
-            {showTrailer && <Popup
-                closePopup={closePopup}
-                buttonClose={true}
-                Content={
-                    <div className='movie__trailer-container'>
-                        {
-                            message ?
-                                <p className='movie__message'>{message}</p>
-                                :
-                                <iframe
-                                    className='movie__trailer'
-                                    title='random-video'
-                                    type='text/html'
-                                    src={`https://www.youtube.com/embed/${videoUrlForPopup}`}
-                                    frameBorder='0'
-                                    allowFullScreen
-                                >
-                                </iframe>
-                        }
-                    </div>
-                }
-            />}
+
+            {
+                showTrailer &&
+                <Popup
+                    closePopup={closePopup}
+                    buttonClose={true}
+                    Content=
+                    {
+                        <div className='movie__trailer-container'>
+                            {
+                                message ?
+                                    <p className='movie__message'>{message}</p>
+                                    :
+                                    <iframe
+                                        className='movie__trailer'
+                                        title='trailer-video'
+                                        type='text/html'
+                                        src={`https://www.youtube.com/embed/${videoUrlForPopup}`}
+                                        frameBorder='0'
+                                        allowFullScreen
+                                    >
+                                    </iframe>
+                            }
+                        </div>
+                    }
+                />
+            }
 
         </section>
     )

@@ -7,16 +7,30 @@ import { CurrentUser } from '../../contexts/CurrentUserContext'
 const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) => {
 
     const currentUser = React.useContext(CurrentUser)
-    const [buttonDisabled, setButtonDisabled] = React.useState(false) // при загрузке исправить на true
+    const [buttonDisabled, setButtonDisabled] = React.useState(true) // при загрузке исправить на true
     const [name, setName] = React.useState('')
     const [email, setEmail] = React.useState('')
-    const [somethingWrongName, setSomethingWrongName] = React.useState(false)
-    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false) // ошибка результата запроса
+    const [wrongName, setWrongName] = React.useState(false)
+    const [wrongEmail, setWrongEmail] = React.useState(false) // ошибка результата запроса
+
 
     React.useEffect(() => {
-        setName(currentUser.name)
-        setEmail(currentUser.email)
+        if (currentUser) {
+            setName(currentUser.name)
+            setEmail(currentUser.email)
+        }
     }, [currentUser])
+
+
+    React.useEffect(() => {
+        if (currentUser) {
+            wrongName || wrongEmail || (name === currentUser.name && email === currentUser.email)
+                ?
+                setButtonDisabled(true)
+                :
+                setButtonDisabled(false)
+        }
+    }, [wrongName, wrongEmail, email, name, currentUser])
 
     const handleClick = (evt) => {
         evt.preventDefault()
@@ -25,10 +39,18 @@ const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) 
 
     const handleNameInput = (evt) => {
         setName(evt.target.value)
+        evt.target.validationMessage ?
+            setWrongName(evt.target.validationMessage)
+            :
+            setWrongName('')
     }
 
     const handleEmailInput = (evt) => {
         setEmail(evt.target.value)
+        evt.target.validationMessage ?
+            setWrongEmail(evt.target.validationMessage)
+            :
+            setWrongEmail('')
     }
 
     return (
@@ -37,7 +59,7 @@ const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) 
                 loggedIn={loggedIn}
             />
             <section className='profile'>
-                <h2 className='profile__title'>Привет, {name}!</h2>
+                <h2 className='profile__title'>Привет, {currentUser && currentUser.name}!</h2>
 
                 <form className='profile__form' onSubmit={handleClick} id='updateUser'>
                     <label className='profile__label'>Имя
@@ -45,11 +67,14 @@ const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) 
                             id='name'
                             name='name'
                             type='text'
-                            className={`profile__input ${somethingWrongName && 'profile__input_wrong'}`}
+                            className={`profile__input ${wrongName && 'profile__input_wrong'}`}
                             value={name}
                             onChange={handleNameInput}
-                            required
-                        // formNoValidate
+                            formNoValidate
+                            minLength='2'
+                            maxLength='30'
+                            pattern='^[A-Za-zА-Яа-яЁё\s\-]*$'
+                            title="поле может содержать только латиницу, кириллицу, пробел или дефис"
                         />
                     </label>
 
@@ -58,22 +83,24 @@ const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) 
                             id='email'
                             name='email'
                             type='email'
-                            className={`profile__input ${somethingWrongEmail && 'profile__input_wrong'}`}
+                            className={`profile__input ${wrongEmail && 'profile__input_wrong'}`}
                             value={email}
                             onChange={handleEmailInput}
-                            required
+                            formNoValidate
+                            pattern='^[^@\s]+@[^@\s]+\.[^@\s]+$'
+                            title="поле может содержать только электронный адрес"
                         />
                     </label>
 
                 </form>
                 <>
                     {
-                        somethingWrongName &&
-                        <span className='profile__input-error name-error'>Поле 'Имя' невалидно!</span>
+                        wrongName &&
+                        <span className='profile__input-error name-error'>{wrongName}</span>
                     }
                     {
-                        somethingWrongEmail &&
-                        <span className='profile__input-error email-error'>Поле 'E-mail' невалидно!</span>
+                        wrongEmail &&
+                        <span className='profile__input-error email-error'>{wrongEmail}</span>
                     }
                 </>
 

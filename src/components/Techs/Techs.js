@@ -1,7 +1,7 @@
 import React from 'react'
 import './Techs.css'
 
-const Techs = React.memo(() => {
+const Techs = () => {
     return (
         <section className='techs' id='techs'>
             <div className='techs__wrap'>
@@ -23,6 +23,6 @@ const Techs = React.memo(() => {
 
         </section>
     )
-})
+}
 
 export default Techs

@@ -18,7 +18,6 @@ const Movies = React.memo(({ loggedIn }) => {
     const [myMoviesList, setMyMoviesList] = React.useState([])
     const [queryString, setQueryString] = React.useState('')
     const [checkboxActive, setCheckboxActive] = React.useState(false)
-    // const [foundMoviesList, setFoundMoviesList] = React.useState([])
     const [shortMoviesList, setShortMoviesList] = React.useState([])
     const [message, setMessage] = React.useState('')
     const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -26,21 +25,21 @@ const Movies = React.memo(({ loggedIn }) => {
     const [startSearch, setStartSearch] = React.useState(false)
 
 
+    // console.log('обновил movies')
+
+
     // изм списка всех фильмов
     React.useEffect(() => {
         localStorage.moviesList &&
             setInitialMoviesList(JSON.parse(localStorage.getItem('moviesList')))
-        console.log(moviesList)
-        console.log('Movie - переписал основной список')
-    }, []);
+        // console.log('Movie - переписал основной список')
+    }, [checkboxActive]) // при удалении и сохр. фильмов и смене флажка обновить рабочий список 
 
 
     // обработка запроса от формы поиска 
     React.useEffect(() => {
         if (queryString) {
-            // console.log(moviesList)
-            // console.log(queryString)
-            const newList = moviesList.filter((movie) =>
+            const newList = initialMoviesList.filter((movie) =>
                 movie && movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1
             )
             if (newList.length) {
@@ -49,18 +48,16 @@ const Movies = React.memo(({ loggedIn }) => {
             } else {
                 setMessage('Ничего не найдено')
             }
-        } else {
-            setMessage('')
         }
         setIsSubmitting(false)
-
-    }, [startSearch, checkboxActive])
+    }, [startSearch, checkboxActive, initialMoviesList])
 
 
     // обработка чекбокса
     React.useEffect(() => {
         if (checkboxActive && moviesList.length) {
-            const newShortList = moviesList.filter(movie => movie.duration <= 40)
+            const newShortList =
+                moviesList.filter(movie => movie.duration <= 40)
             newShortList.length ?
                 setShortMoviesList(newShortList)
                 :
@@ -68,55 +65,51 @@ const Movies = React.memo(({ loggedIn }) => {
         } else {
             setShortMoviesList([])
         }
+        console.log(shortMoviesList)
+
     }, [checkboxActive, moviesList])
 
 
+    // сливаем два списка от двух API если localStorage.moviestList - пустой
+    const updateLocalLists = (moviesFromAPI) => { // <<<<<<<<<<<<<<<<<<<<<<<<< нестабильно - м.б. через localstorage <<<<<<<<<<<<<<<
+        myMoviesList.map((savedMovie) => {
+            const updatedMovieIndex = moviesFromAPI.findIndex(existedMovie => existedMovie.id === savedMovie.id) // => index
+            updatedMovieIndex > -1 &&
+                // начиная с updatedMovieIndex удалить 1 элемент и заменить его на savedMovie
+                moviesFromAPI.splice(updatedMovieIndex, 1, savedMovie);
+            return moviesFromAPI
+        })
+        setInitialMoviesList(moviesFromAPI) // обновленный массив в стейт
+        localStorage.setItem('moviesList', JSON.stringify(moviesFromAPI)) // обновленный массив в localStorage
+        setStartSearch(!startSearch) // запуск поиска
+    }
 
-    const updateLocalLists = (moviesFromAPI, query) => { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    const getLocalLists = (moviesFromAPI) => {
         console.log('updateLocalLists')
         setIsSubmitting(true)
         getMyMovies()
-            .then((moviesArray) => {
-                setMyMoviesList(moviesArray)
+            .then((myMovies) => {
+                setMyMoviesList(myMovies)
+                updateLocalLists(moviesFromAPI)
             })
             .catch(err => console.log(err))
             .finally(() => setIsSubmitting(false))
-
-        console.log(myMoviesList)
-
-        if (myMoviesList.length) {
-            const unionList = moviesFromAPI
-            myMoviesList.map((savedMovie) => {
-                const updatedMovieIndex = moviesFromAPI.findIndex(existedMovie => existedMovie.id === savedMovie.id) // => index
-                updatedMovieIndex > -1 &&
-                    // начиная с updatedMovieIndex удалить 1 элемент и заменить его savedMovie в list
-                    unionList.splice(updatedMovieIndex, 1, savedMovie);
-                return unionList
-            })
-            console.log('unionList')
-            console.log(unionList)
-            localStorage.setItem('moviesList', JSON.stringify(unionList)) // обновленный массив в стейт
-            setInitialMoviesList(unionList) // обновленный массив в стейт
-        } else {
-            localStorage.setItem('moviesList', JSON.stringify(moviesFromAPI)) // массив от API без изменений в стейт
-            setInitialMoviesList(moviesFromAPI) // обновленный массив в стейт
-        }
-        setQueryString(query) // запрос в стейт
-        setStartSearch(!startSearch)
     }
 
 
     // запрос - ч/з арi или из localstorage
     const handleSubmitSearchForm = (query) => {
-        query !== queryString && setIsSubmitting(true)
-        setMoviesList(initialMoviesList)
+        if (query !== queryString) {
+            setIsSubmitting(true)
+            setQueryString(query)
+        }
         if (initialMoviesList.length) { // список из localStorage при монтировании
-            setQueryString(query) // запрос в стейт
             setStartSearch(!startSearch)
         } else {
             moviesApi.getMovies()
                 .then((moviesFromAPI) => {
-                    updateLocalLists(moviesFromAPI, query)
+                    getLocalLists(moviesFromAPI)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -138,7 +131,6 @@ const Movies = React.memo(({ loggedIn }) => {
         setMessage('')
     }
 
-    console.log(moviesList)
 
     return (
         <section className='movies'>

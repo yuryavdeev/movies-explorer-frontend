@@ -1,7 +1,7 @@
 import React from 'react'
 import Access from '../Access/Access'
 
-const Register = React.memo(({ handleRegistrationSubmit }) => {
+const Register = React.memo(({ handleRegistrationSubmit, messageErr }) => {
 
     const greeting = 'Добро пожаловать!'
     const button = 'Зарегистрироваться'
@@ -15,6 +15,7 @@ const Register = React.memo(({ handleRegistrationSubmit }) => {
             button={button}
             isRegistrated={isRegistrated}
             link={link}
+            messageErr={messageErr}
         />
     )
 })
