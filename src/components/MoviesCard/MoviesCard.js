@@ -17,12 +17,22 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
     const [duration, setDuration] = React.useState('')
     const [saved, setSaved] = React.useState(movie.owner === currentUser._id)
     const [mouseOver, setMouseOver] = React.useState(false)
-    const [showTrailer, setShowTrailer] = React.useState(false)
+    const [trailerVisible, setTrailerVisible] = React.useState(false)
     const [videoUrlForPopup, setVideoUrlForPopup] = React.useState('')
-    const [message, setMessage] = React.useState('')
+    const [messageErr, setMessageErr] = React.useState('')
     const [isSubmitting, setIsSubmitting] = React.useState(false)
     const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
     const [hasEmptyField, setHasEmptyField] = React.useState('')
+
+
+    React.useEffect(() => {
+        for (const key in movie) {
+            if (movie[key] === '' || movie[key] === null) {
+                console.log(`Пустое поле ${key} у фильма - ${movie.nameRU}`)
+                setHasEmptyField(key)
+            }
+        }
+    }, [movie])
 
 
     React.useEffect(() => {
@@ -34,56 +44,73 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
 
 
     React.useEffect(() => {
-        for (const key in movie) {
-            if (movie[key] === '' || movie[key] === null) {
-                console.log(`Пустое поле фильма ${key} у фильма - ${movie.nameRU}`)
-                setHasEmptyField(key)
-            }
+        if (hasEmptyField === 'trailerLink' || String(movie.trailerLink).indexOf('http') < 0) {
+            setHasEmptyField('trailerLink') // для != http...
+            setMessageErr(`Недопустимое поле фильма - ${hasEmptyField}`)
+        } else {
+            String(movie.trailerLink).indexOf('v=') > -1 &&
+                setVideoUrlForPopup(String(movie.trailerLink).split('v=')[1])
         }
-
-        if (movie.trailerLink) {
-            (movie.trailerLink.indexOf('http') === -1)
-                ?
-                setMessage('К сожалению трейлер недоступен...')
-                :
-                (movie.trailerLink.indexOf('v=') > -1)
-                &&
-                setVideoUrlForPopup(movie.trailerLink.split('v=')[1])
-
-        }
-    }, [])
+    }, [hasEmptyField, movie.trailerLink])
 
 
-    // при удалении или добавл. фильма в избранное
+    const openPopupErr = (err) => {
+        setMessageErr(`В ответе на Ваш запрос сервером возвращена ошибка - ${err}`)
+        setInfoTooltipOpen(true)
+    }
+
+
+    const showTrailer = () => {
+        // console.log(movie)
+        !messageErr ? setTrailerVisible(true) : setInfoTooltipOpen(true)
+    }
+
+
+    const closePopup = () => {
+        setTrailerVisible(false)
+        setInfoTooltipOpen(false)
+    }
+
+
+    // при удалении или добавл. фильма в избранное (... - в отд. компонент)
     const updateMainList = (savedMovie) => {
+        // осн. список фильмов - для корр. отображения на /movies
         const mainMoviesList = JSON.parse(localStorage.getItem('moviesList'))
-        const updatedMovieIndex = mainMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)
-        // начиная с updatedMovieIndex удалить 1 элемент и заменить его в mainMoviesList:
-        mainMoviesList.splice(updatedMovieIndex, 1, savedMovie)
-        // обновил осн. список фильмов в localStorage
-        localStorage.setItem('moviesList', JSON.stringify(mainMoviesList))
+        const movieIndex = mainMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)
+        // начиная с movieIndex удалить 1 элемент и заменить его в mainMoviesList:
+        mainMoviesList.splice(movieIndex, 1, savedMovie)
+        // обновил список фильмов в localStorage
+        localStorage.setItem('moviesList', JSON.stringify(mainMoviesList)) // если запрос - каждый раз от API - удалить!
+
+        // список фильмов из избранного - для первичной загрузки на /saved-movies
+        let myFavoriteMoviesList = JSON.parse(localStorage.getItem('myFavoriteMoviesList'))
+        // сохраняемый фильм =>
+        if (savedMovie.owner === currentUser._id) {
+            myFavoriteMoviesList = myFavoriteMoviesList.concat(savedMovie) // добавил
+            localStorage.setItem('myFavoriteMoviesList', JSON.stringify(myFavoriteMoviesList)) // сохранил
+        }
+        // удаляемый фильм =>
+        else {
+            const index = myFavoriteMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id) // <= индекс
+            myFavoriteMoviesList.splice(index, 1) // <= удалил
+            localStorage.setItem('myFavoriteMoviesList', JSON.stringify(myFavoriteMoviesList)) // сохранил
+        }
     }
 
 
     const clickSaved = () => {
         if (hasEmptyField) {
-            console.log(`Недопустимое поле при сохранении фильма - ${hasEmptyField}`)
+            setMessageErr(`Недопустимое поле фильма - ${hasEmptyField}`)
             setInfoTooltipOpen(true)
-            setMessage('Ошибка при добавлении фильма')
         } else {
             setIsSubmitting(true)
             addToMyMoviesList(movie)
                 .then((savedMovie) => {
                     setSaved(true)
-                    setMovie(savedMovie) // <<<<<<<<<<<<< при перепоиске беру initial... => не д.б. значка что сохранил..... разобраться....>>>>....{}
+                    setMovie(savedMovie)
                     updateMainList(savedMovie)
-                    // console.log(savedMovie)
                 })
-                .catch((err) => {
-                    console.log(err)
-                    setInfoTooltipOpen(true)
-                    setMessage('Ошибка при добавлении фильма')
-                })
+                .catch((err) => openPopupErr(err))
                 .finally(() => setIsSubmitting(false))
         }
     }
@@ -93,52 +120,28 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
         setIsSubmitting(true)
         deleteFromMyMoviesList(movie._id)
             .then((deletedMovie) => {
-                const { owner, _id, __v, ...savedMovie } = deletedMovie // обновил объект карточки фильма без owner и _id
+                const { owner, _id, __v, ...savedMovie } = deletedMovie // => объект фильма savedMovie без __v, owner и _id
                 updateMainList(savedMovie)
                 setSaved(false)
                 location.pathname === '/saved-movies' ?
                     setMovie('')
                     :
                     setMovie(savedMovie)
-                // console.log(savedMovie)
             })
-            .catch((err) => {
-                console.log(err)
-                setInfoTooltipOpen(true)
-                setMessage('Во время удаления фильма произошла ошибка')
-            })
+            .catch((err) => openPopupErr(err))
             .finally(() => setIsSubmitting(false))
     }
 
 
-    const closePopup = () => {
-        setShowTrailer(false)
-        setInfoTooltipOpen(false)
-        setMessage('')
-    }
-
     return (
-        movie &&
+        movie &&  // <= если удалил из избранного
         <section className='movie'>
 
             {
-                isSubmitting && <Preloader />
-            }
-
-            {
-                infoTooltipOpen &&
-                <InfoTooltip
-                    closePopup={closePopup}
-                    icon={UnionX}
-                    notification={message}
-                />
-            }
-
-            {
-                (videoUrlForPopup || message) ?
+                (videoUrlForPopup || messageErr) ?
                     <img
                         className='movie__image'
-                        onClick={() => setShowTrailer(true)}
+                        onClick={() => showTrailer()}
                         onMouseOver={() => setMouseOver(true)}
                         onMouseLeave={() => setMouseOver(false)}
                         // при обратном сохранении api вернул movie.image без url
@@ -193,29 +196,33 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
             }
 
             {
-                showTrailer &&
+                trailerVisible &&
                 <Popup
                     closePopup={closePopup}
                     buttonClose={true}
-                    Content=
-                    {
+                    Content={
                         <div className='movie__trailer-container'>
-                            {
-                                message ?
-                                    <p className='movie__message'>{message}</p>
-                                    :
-                                    <iframe
-                                        className='movie__trailer'
-                                        title='trailer-video'
-                                        type='text/html'
-                                        src={`https://www.youtube.com/embed/${videoUrlForPopup}`}
-                                        frameBorder='0'
-                                        allowFullScreen
-                                    >
-                                    </iframe>
-                            }
+                            <iframe
+                                className='movie__trailer'
+                                title='trailer-video'
+                                type='text/html'
+                                src={`https://www.youtube.com/embed/${videoUrlForPopup}`}
+                                frameBorder='0'
+                                allowFullScreen>
+                            </iframe>
                         </div>
                     }
+                />
+            }
+
+            {isSubmitting && <Preloader />}
+
+            {
+                infoTooltipOpen &&
+                <InfoTooltip
+                    closePopup={closePopup}
+                    icon={UnionX}
+                    notification={messageErr}
                 />
             }
 

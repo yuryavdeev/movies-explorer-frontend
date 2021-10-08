@@ -19,7 +19,7 @@ const MoviesCardList = React.memo(({ moviesList, message }) => {
         }
 
         location.pathname === '/movies' &&
-            window.addEventListener('resize', handleResize)
+            window.addEventListener('resize', () => setTimeout(handleResize, 500))
 
         return () => window.removeEventListener('resize', handleResize)
     }, [location.pathname])
@@ -27,7 +27,6 @@ const MoviesCardList = React.memo(({ moviesList, message }) => {
 
     React.useEffect(() => {
         setButtonVisible(true)
-
         location.pathname === '/saved-movies'
             ?
             setNumbers(moviesList.length)
@@ -41,9 +40,9 @@ const MoviesCardList = React.memo(({ moviesList, message }) => {
                         :
                         2
             )
-    }, [moviesList])
+    }, [location.pathname, moviesList, screenWidth])
 
-    // numbers на первой загрузке и увеличении ширины экрана (! - слушатель) => отрисовать мин (3, 2, 1) или макс (своё значение)
+    // numbers на первой загрузке и увеличении ширины экрана (зависимость) => отрисовать мин (3, 2, 1) или макс (своё значение)
     React.useEffect(() => {
         location.pathname === '/movies'
             &&
@@ -56,7 +55,7 @@ const MoviesCardList = React.memo(({ moviesList, message }) => {
                         :
                         Math.max(2, numbers)
             )
-    }, [screenWidth])
+    }, [location.pathname, numbers, screenWidth])
 
 
     React.useEffect(() => {

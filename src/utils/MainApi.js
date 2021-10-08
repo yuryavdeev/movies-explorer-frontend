@@ -1,5 +1,5 @@
-// const apiURL = 'https://api.avdeev.movies.nomoredomains.monster';
-const apiURL = 'http://localhost:3000';
+const apiURL = 'https://api.avdeev.movies.nomoredomains.monster';
+// const apiURL = 'http://localhost:3000';
 
 const checkResponse = (res) => {
     return res.ok ?

@@ -23,7 +23,7 @@ const Profile = React.memo(({ loggedIn, handleSubmitUpdateUser, handleLogout }) 
 
 
     React.useEffect(() => {
-        if (currentUser) {
+        if (name && email) {
             wrongName || wrongEmail || (name === currentUser.name && email === currentUser.email)
                 ?
                 setButtonDisabled(true)

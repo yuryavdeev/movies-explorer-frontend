@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation } from 'react-router'
-
 import './SearchForm.css'
 import find from '../../images/find.svg'
 
@@ -16,9 +15,11 @@ const SearchForm = React.memo(({ handleSubmitSearchForm, handleCheckboxChange })
         setInputIsEmpty(false)
     }
 
-    React.useEffect(() => {
-        handleCheckboxChange(isCheckboxOn)
-    }, [isCheckboxOn])
+    const listenCheckbox = () => {
+        handleCheckboxChange(!isCheckboxOn)
+        setIsCheckboxOn(!isCheckboxOn)
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -57,7 +58,7 @@ const SearchForm = React.memo(({ handleSubmitSearchForm, handleCheckboxChange })
                     <input
                         className='search__checkbox'
                         type='checkbox'
-                        onChange={() => setIsCheckboxOn(!isCheckboxOn)}
+                        onChange={listenCheckbox}
                     />
                     <span className='search__checkbox-visible'></span>
                 </label>
