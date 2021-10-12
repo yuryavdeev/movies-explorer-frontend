@@ -1,20 +1,16 @@
 import React from 'react'
 import Access from '../Access/Access'
+import { config } from '../../utils/conf'
 
 const Login = React.memo(({ handleLoginSubmit, messageErr }) => {
-
-    const greeting = 'Рады видеть!'
-    const button = 'Войти'
-    const isRegistrated = 'Ещё не зарегистрированы?'
-    const link = 'Регистрация'
 
     return (
         <Access
             nextHandleSubmit={handleLoginSubmit}
-            greeting={greeting}
-            button={button}
-            isRegistrated={isRegistrated}
-            link={link}
+            greeting={config.login.greeting}
+            button={config.login.button}
+            isRegistrated={config.login.isRegistrated}
+            link={config.login.link}
             messageErr={messageErr}
         />
     )

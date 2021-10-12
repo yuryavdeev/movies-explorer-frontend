@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './GridArea.css'
 import photo from '../../images/photo.jpg'
 import arrow from '../../images/arrow.svg'
+import { config } from '../../utils/conf'
 
 
 const GridArea = React.memo(() => {
@@ -13,14 +14,9 @@ const GridArea = React.memo(() => {
             <img className='grid-area__photo' src={photo} alt='Фото пользователя' />
 
             <div className='grid-area__info'>
-                <h3 className='grid-area__info-name'>Юрий</h3>
-                <h4 className='grid-area__info-about'>Фронтенд-разработчик, 43 года</h4>
-                <p className='grid-area__info-text'>
-                    Я живу в Москве, у меня высшее юридическое образование, но основной отрезок
-                    профессиональной карьеры пришёлся на строительную сферу. У меня есть жена и четыре прекрасных ребёнка.
-                    Мне нравится смотреть хорошее кино и путешествовать с семьёй. Недавно я открыл для себя ещё одно увлечение - веб-разработка.
-                    И после того, как прошёл курс обучения, я решил полностью посвятить себя любимому делу.
-                </p>
+                <h3 className='grid-area__info-name'>{config.aboutMeName}</h3>
+                <h4 className='grid-area__info-about'>{config.aboutMeInfo}</h4>
+                <p className='grid-area__info-text'>{config.aboutMeText}</p>
                 <ul className='grid-area__info-links-list'>
                     <li className='grid-area__links-item'>
                         <Link to={{ pathname: 'https://www.facebook.com' }} className='grid-area__info-link' target='_blank'>Facebook</Link>

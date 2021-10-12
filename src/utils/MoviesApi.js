@@ -9,7 +9,7 @@ class MoviesApi {
     }
 
     async getMovies() {
-        // console.log('api - getMovies')
+        console.log('api - getMovies')
         const res = await fetch(`${this._url}`, {
             method: 'GET',
             headers: this._headers

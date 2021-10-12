@@ -1,20 +1,16 @@
 import React from 'react'
 import Access from '../Access/Access'
+import { config } from '../../utils/conf'
 
 const Register = React.memo(({ handleRegistrationSubmit, messageErr }) => {
-
-    const greeting = 'Добро пожаловать!'
-    const button = 'Зарегистрироваться'
-    const isRegistrated = 'Уже зарегистрированы?'
-    const link = 'Войти'
 
     return (
         <Access
             nextHandleSubmit={handleRegistrationSubmit}
-            greeting={greeting}
-            button={button}
-            isRegistrated={isRegistrated}
-            link={link}
+            greeting={config.register.greeting}
+            button={config.register.button}
+            isRegistrated={config.register.isRegistrated}
+            link={config.register.link}
             messageErr={messageErr}
         />
     )

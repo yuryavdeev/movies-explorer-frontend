@@ -10,7 +10,7 @@ import UnionX from '../../images/union-x.svg'
 
 const Movies = React.memo(({ loggedIn }) => {
 
-    const [mainMoviesList, setMainMoviesList] = React.useState([])
+    // const [baseMoviesList, setBaseMoviesList] = React.useState([])
     const [listForRender, setListForRender] = React.useState([])
     const [shortListForRender, setShortListForRender] = React.useState([])
     const [queryString, setQueryString] = React.useState('')
@@ -19,20 +19,26 @@ const Movies = React.memo(({ loggedIn }) => {
     const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
 
 
+    // при возврате - для отрисовки прошлого поиска
     React.useEffect(() => {
-        setMainMoviesList(JSON.parse(localStorage.getItem('moviesList')))
-    }, [checkboxActive]) // при удалении и сохр. фильмов в избранном и смене чекбокса - обновить осн. список
+        localStorage.listOfFound && setListForRender(JSON.parse(localStorage.getItem('listOfFound')))
+    }, [checkboxActive])
 
 
-    // обработка запроса от формы поиска - попробовать в отд. компонент с MoviesSaved
+    // обработка запроса от формы поиска - в отд. компонент с MoviesSaved - ?
     React.useEffect(() => {
         if (queryString) {
-            const newList = mainMoviesList.filter((movie) =>
+            const newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
                 movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
-            newList.length ?
-                setListForRender(newList) : setMessage('Ничего не найдено')
+            if (newList.length) {
+                setListForRender(newList)
+                localStorage.setItem('listOfFound', JSON.stringify(newList)) // в localStorage <= для отрисовки при возврате
+            } else {
+                setMessage('Ничего не найдено')
+
+            }
         }
-    }, [queryString, checkboxActive, mainMoviesList])
+    }, [queryString, checkboxActive])
 
 
     // обработка чекбокса - после поиска
@@ -47,7 +53,7 @@ const Movies = React.memo(({ loggedIn }) => {
     }, [checkboxActive, listForRender])
 
 
-    // запрос - ч/з арi или из localstorage
+    // запрос - данные из localstorage
     const handleSubmitSearchForm = (query) => {
         setMessage('')
         setQueryString(query)
@@ -55,7 +61,6 @@ const Movies = React.memo(({ loggedIn }) => {
 
 
     const handleCheckboxChange = (isCheckboxOn) => {
-        console.log(isCheckboxOn)
         setMessage('')
         setCheckboxActive(isCheckboxOn)
     }

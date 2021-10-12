@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useFormWithValidation } from '../Validation/Validation'
 import './Access.css'
 import logo from '../../images/logo.svg'
@@ -7,6 +7,7 @@ import logo from '../../images/logo.svg'
 const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link, messageErr }) => {
 
     const location = useLocation()
+    const history = useHistory()
     const handleForm = useFormWithValidation()
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
@@ -27,7 +28,7 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
         <div className='access'>
 
             <div className='access__top'>
-                <img className='logo' src={logo} alt='логотип' />
+                <img className='logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
                 <h2 className='access__title'>{greeting}</h2>
             </div>
 

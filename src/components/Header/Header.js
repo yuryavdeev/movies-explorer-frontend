@@ -43,7 +43,7 @@ const Header = React.memo(() => {
         <header className={`header ${location.pathname === '/' && 'header__type_color'}`}>
 
             <div className='header__wrap'>
-                <img className='header__logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
+                <img className='logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
                 {
                     !currentUser ?
                         <nav className='header__nav-container'>

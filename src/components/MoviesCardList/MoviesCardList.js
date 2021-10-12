@@ -77,8 +77,6 @@ const MoviesCardList = React.memo(({ moviesList, message }) => {
         setNumbers(
             screenWidth >= 1137 ?
                 numbers + 3
-                // : screenWidth < 768 ?
-                //     numbers + 1
                 :
                 numbers + 2
         )

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
 import './App.css'
-import ProtectedRoute from '../ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute'
+import ProtectedRouteAuth from '../ProtectedRouteAuth'
 import { CurrentUser } from '../../contexts/CurrentUserContext'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
@@ -14,7 +15,8 @@ import Profile from '../Profile/Profile'
 import PageNotFound from '../PageNotFound/PageNotFound'
 import Preloader from '../Preloader/Preloader'
 import { register, authorize, deleteAuth, getUser, updateUser, getMyMovies } from '../../utils/MainApi'
-import moviesApi from '../../utils/MoviesApi';
+import moviesApi from '../../utils/MoviesApi'
+import { config } from '../../utils/conf'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import UnionV from '../../images/union-v.svg'
 import UnionX from '../../images/union-x.svg'
@@ -28,26 +30,43 @@ function App() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
   const [messageErr, setMessageErr] = React.useState('')
+  const [err, setErr] = React.useState('')
 
 
   // авторизация при возврате на сайт
   React.useEffect(() => {
     if (localStorage.isAuth) {
-      // console.log('isAuth ? => getUser...')
-      setIsSubmitting(true)
-      getUser()
-        .then((userData) => {
-          setCurrentUser(userData)
-          updateMoviesLists()
-          history.push(location.pathname) // => при непоср. переходе или обновл. - если ProtectedRoute > /signin <= location.pathname
-        })
-        .catch(err => {
-          console.log(err);
-          history.push('/signin')
-        })
-        .finally(() => setIsSubmitting(false))
+      if (localStorage.currentUser && localStorage.myFavoriteMoviesList && sessionStorage.baseMoviesList) {
+        console.log(' => local data is true...')
+        setCurrentUser(JSON.parse(localStorage.getItem('currentUser')))
+        history.push(location.pathname) // => при непоср. переходе или обновл. - если ProtectedRoute > /signin и '/' <= location.pathname
+      } else {
+        console.log(' => getUser...')
+        setIsSubmitting(true)
+        getUser()
+          .then((userData) => {
+            setCurrentUser(userData)
+            localStorage.setItem('currentUser', JSON.stringify(userData))
+            updateMoviesLists()
+            history.push(location.pathname) // => при непоср. переходе или обновл. - если ProtectedRoute > /signin <= location.pathname
+          })
+          .catch(err => {
+            setErr(err)
+            history.push('/signin')
+          })
+          .finally(() => setIsSubmitting(false))
+      }
     }
-  }, []);
+  }, [])
+
+
+  // обработка ошибок запросов
+  useEffect(() => {
+    if (err) {
+      setMessageErr(`В ответе на Ваш запрос сервером возвращена ошибка - ${err}`)
+      setInfoTooltipOpen(true)
+    }
+  }, [err])
 
 
   // авторизация пользователя на /signin
@@ -57,10 +76,11 @@ function App() {
       .then((userData) => {
         localStorage.setItem('isAuth', true) // маркер для useEffect
         setCurrentUser(userData)
+        localStorage.setItem('currentUser', JSON.stringify(userData))
         updateMoviesLists()
         history.push('/movies')
       })
-      .catch((err) => openPopupErr(err))
+      .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
@@ -77,7 +97,7 @@ function App() {
         },
           2000)
       })
-      .catch((err) => openPopupErr(err))
+      .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
@@ -87,15 +107,16 @@ function App() {
     setIsSubmitting(true)
     deleteAuth()
       .then(() => {
-        localStorage.clear();
         setCurrentUser()
+        localStorage.clear()
+        sessionStorage.clear()
         history.push('/')
       })
-      .catch((err) => openPopupErr(err))
+      .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
-  
+
   // обновить данные пользователя
   const handleSubmitUpdateUser = ({ name, email }) => {
     setIsSubmitting(true)
@@ -103,29 +124,29 @@ function App() {
       .then(userData => {
         setInfoTooltipOpen(true)
         setCurrentUser(userData)
+        localStorage.setItem('currentUser', JSON.stringify(userData))
         setTimeout(() => {
           setInfoTooltipOpen(false)
         },
           2000)
       })
-      .catch((err) => openPopupErr(err))
+      .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
 
-  // логику ниже и логику добавить-удалить из MoviesCard в отд. компонент... сюда - деструкт-ей
   const updateMoviesLists = () => {
-    // console.log('updateMoviesLists')
+    console.log('updateMoviesLists')
     setIsSubmitting(true)
 
     getMyMovies()
       .then((myMoviesArray) => {
         localStorage.setItem('myFavoriteMoviesList', JSON.stringify(myMoviesArray))
 
-        if (!localStorage.mainMoviesArray) { // запустится при логине, а не при обновлении стр.
+        // очищать при окончания сессии веб-страницы: запрос к API при логине и при переходе с др. стр., но не при обновлении и возврте на стр. =>
+        if (!sessionStorage.baseMoviesList) { // <= !!! - sessionStorage (=> чаще обновлять baseMoviesList, в т.ч. при работе с разных устройств)
           moviesApi.getMovies()
             .then((mainMoviesArray) => {
-
               if (myMoviesArray.length) { // если есть фильмы в избранном от API - обнов. осн. список фильмов
                 const temporaryList = mainMoviesArray
                 myMoviesArray.map((savedMovie) => {
@@ -134,32 +155,27 @@ function App() {
                     temporaryList.splice(movieIndex, 1, savedMovie) // с movieIndex удалить 1 эл-т и заменить его на savedMovie
                   return temporaryList
                 })
-                localStorage.setItem('moviesList', JSON.stringify(temporaryList)) // обновл. массив в localStorage <= в /movies отрисовка с уч. избранного
+                sessionStorage.setItem('baseMoviesList', JSON.stringify(temporaryList)) // обновл. массив в sessionStorage <= в /movies отрисовка с уч. избранного
               } else {
-                localStorage.setItem('moviesList', JSON.stringify(mainMoviesArray)) // полученный без изм. массив в localStorage
+                sessionStorage.setItem('baseMoviesList', JSON.stringify(mainMoviesArray)) // полученный без изм. массив в sessionStorage
               }
             })
-
             .catch(() => {
-              setMessageErr('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+              setMessageErr(config.queryErr) // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< setErr(err))
               setInfoTooltipOpen(true)
             })
         }
       })
-      .catch((err) => openPopupErr(err))
+
+      .catch((err) => setErr('err'))
       .finally(() => setIsSubmitting(false))
-  }
-
-
-  const openPopupErr = (err) => {
-    setMessageErr(`В ответе на Ваш запрос сервером возвращена ошибка - ${err}`)
-    setInfoTooltipOpen(true)
   }
 
 
   const closePopup = () => {
     setInfoTooltipOpen(false)
     setMessageErr('')
+    setErr('')
   }
 
 
@@ -187,19 +203,17 @@ function App() {
             handleSubmitUpdateUser={handleSubmitUpdateUser}
           />
 
-          <Route exact path='/signin'>
-            <Login
-              handleLoginSubmit={handleLoginSubmit}
-              messageErr={messageErr}
-            />
-          </Route>
+          <ProtectedRouteAuth exact path='/signin'
+            component={Login}
+            handleLoginSubmit={handleLoginSubmit}
+            messageErr={messageErr}
+          />
 
-          <Route exact path='/signup'>
-            <Register
-              handleRegistrationSubmit={handleRegistrationSubmit}
-              messageErr={messageErr}
-            />
-          </Route>
+          <ProtectedRouteAuth exact path='/signup'
+            component={Register}
+            handleRegistrationSubmit={handleRegistrationSubmit}
+            messageErr={messageErr}
+          />
 
           <Route path='*'>
             <PageNotFound />

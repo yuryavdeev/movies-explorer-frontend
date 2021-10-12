@@ -21,7 +21,7 @@ const SavedMovies = React.memo(({ loggedIn }) => {
 
     // при удалении из изб. и смене чекбокса - обновить
     React.useEffect(() => {
-        setMyFavoriteMoviesList(JSON.parse(localStorage.getItem('myFavoriteMoviesList')))
+        localStorage.myFavoriteMoviesList && setMyFavoriteMoviesList(JSON.parse(localStorage.getItem('myFavoriteMoviesList')))
     }, [checkboxActive])
 
 

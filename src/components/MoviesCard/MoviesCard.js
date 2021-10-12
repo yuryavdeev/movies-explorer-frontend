@@ -61,7 +61,6 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
 
 
     const showTrailer = () => {
-        // console.log(movie)
         !messageErr ? setTrailerVisible(true) : setInfoTooltipOpen(true)
     }
 
@@ -72,17 +71,22 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
     }
 
 
-    // при удалении или добавл. фильма в избранное (... - в отд. компонент)
-    const updateMainList = (savedMovie) => {
-        // осн. список фильмов - для корр. отображения на /movies
-        const mainMoviesList = JSON.parse(localStorage.getItem('moviesList'))
-        const movieIndex = mainMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)
-        // начиная с movieIndex удалить 1 элемент и заменить его в mainMoviesList:
-        mainMoviesList.splice(movieIndex, 1, savedMovie)
-        // обновил список фильмов в localStorage
-        localStorage.setItem('moviesList', JSON.stringify(mainMoviesList)) // если запрос - каждый раз от API - удалить!
+    const updateLocalLists = (savedMovie) => {
+        // осн. список фильмов - для корр. отображения лайков на /movies после нового поиска
+        const baseMoviesList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
+        const movieIndex = baseMoviesList.findIndex(existedMovie => existedMovie.id === savedMovie.id)
+        // начиная с movieIndex удалить 1 элемент и заменить его в baseMoviesList:
+        baseMoviesList.splice(movieIndex, 1, savedMovie)
+        // обновил список фильмов в sessionStorage
+        sessionStorage.setItem('baseMoviesList', JSON.stringify(baseMoviesList))
 
-        // список фильмов из избранного - для первичной загрузки на /saved-movies
+        // список фильмов после поиска - для корр. загрузки на /movies после возврата
+        let listOfFound = JSON.parse(localStorage.getItem('listOfFound'))
+        const movIndex = listOfFound.findIndex(existedMovie => existedMovie.id === savedMovie.id)
+        listOfFound.splice(movIndex, 1, savedMovie)
+        localStorage.setItem('listOfFound', JSON.stringify(listOfFound))
+
+        // список фильмов из избранного - для правильного отображения на /saved-movies после изменений списка на /movies
         let myFavoriteMoviesList = JSON.parse(localStorage.getItem('myFavoriteMoviesList'))
         // сохраняемый фильм =>
         if (savedMovie.owner === currentUser._id) {
@@ -108,7 +112,7 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
                 .then((savedMovie) => {
                     setSaved(true)
                     setMovie(savedMovie)
-                    updateMainList(savedMovie)
+                    updateLocalLists(savedMovie, currentUser._id)
                 })
                 .catch((err) => openPopupErr(err))
                 .finally(() => setIsSubmitting(false))
@@ -121,7 +125,7 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
         deleteFromMyMoviesList(movie._id)
             .then((deletedMovie) => {
                 const { owner, _id, __v, ...savedMovie } = deletedMovie // => объект фильма savedMovie без __v, owner и _id
-                updateMainList(savedMovie)
+                updateLocalLists(savedMovie, currentUser._id)
                 setSaved(false)
                 location.pathname === '/saved-movies' ?
                     setMovie('')

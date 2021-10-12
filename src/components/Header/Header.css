@@ -19,7 +19,14 @@
 }
 
 /* логотип */
-.header__logo:hover {
+
+.logo {
+    margin: 0;
+    width: 38px;
+    height: 38px;
+}
+
+.logo:hover {
     opacity: .6;
     transition: opacity linear 0.3s;
     cursor: pointer;

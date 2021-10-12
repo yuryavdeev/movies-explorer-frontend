@@ -23,7 +23,7 @@
     line-height: 1.2;
 }
 
-/* форма xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+/* форма */
 .access__form {
     display: flex;
     flex-direction: column;
@@ -84,9 +84,7 @@
     margin: 10px auto 0 0;
 }
 
-
-
-/* низ формы xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+/* низ формы */
 .access__bottom {
     display: flex;
     flex-direction: column;
