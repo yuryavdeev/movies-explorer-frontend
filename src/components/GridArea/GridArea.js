@@ -32,7 +32,7 @@ const GridArea = React.memo(() => {
                 <ul className='grid-area__portfolio-links-list'>
                     <li className='grid-area__links-item'>
                         <p className='grid-area__portfolio-name'>Статичный сайт</p>
-                        <Link to={{ pathname: 'https://github.com/yuryavdeev/how-to-learn' }} className='grid-area__portfolio-link' target='_blank'>
+                        <Link to={{ pathname: 'https://yuryavdeev.github.io/how-to-learn/index.html' }} className='grid-area__portfolio-link' target='_blank'>
                             <img className='grid-area__portfolio-arrow' src={arrow} alt='ссылка в виде стрелки' />
                         </Link>
                     </li>
@@ -46,7 +46,7 @@ const GridArea = React.memo(() => {
                     <hr className='grid-area__portfolio-border'></hr>
                     <li className='grid-area__links-item'>
                         <p className='grid-area__portfolio-name'>Одностраничное приложение</p>
-                        <Link to={{ pathname: 'https://yuryavdeev.github.io/mesto-react/' }} className='grid-area__portfolio-link' target='_blank'>
+                        <Link to={{ pathname: 'https://avdeev.nomoredomains.monster' }} className='grid-area__portfolio-link' target='_blank'>
 
                             <img className='grid-area__portfolio-arrow' src={arrow} alt='ссылка в виде стрелки' />
                         </Link>

@@ -112,7 +112,7 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
                 .then((savedMovie) => {
                     setSaved(true)
                     setMovie(savedMovie)
-                    updateLocalLists(savedMovie, currentUser._id)
+                    updateLocalLists(savedMovie)
                 })
                 .catch((err) => openPopupErr(err))
                 .finally(() => setIsSubmitting(false))
@@ -125,7 +125,7 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
         deleteFromMyMoviesList(movie._id)
             .then((deletedMovie) => {
                 const { owner, _id, __v, ...savedMovie } = deletedMovie // => объект фильма savedMovie без __v, owner и _id
-                updateLocalLists(savedMovie, currentUser._id)
+                updateLocalLists(savedMovie)
                 setSaved(false)
                 location.pathname === '/saved-movies' ?
                     setMovie('')
