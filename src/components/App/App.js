@@ -89,7 +89,8 @@ function App() {
   const handleRegistrationSubmit = ({ name, email, password }) => {
     setIsSubmitting(true)
     register({ name, email, password })
-      .then(() => {
+      .then((userData) => {
+        console.log(userData)
         setInfoTooltipOpen(true)
         setTimeout(() => {
           handleLoginSubmit({ email, password }) // => получить куки
@@ -99,6 +100,9 @@ function App() {
       })
       .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
+    console.log(localStorage)
+    console.log(currentUser)
+
   }
 
 
@@ -160,14 +164,11 @@ function App() {
                 sessionStorage.setItem('baseMoviesList', JSON.stringify(mainMoviesArray)) // полученный без изм. массив в sessionStorage
               }
             })
-            .catch(() => {
-              setMessageErr(config.queryErr) // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< setErr(err))
-              setInfoTooltipOpen(true)
-            })
+            .catch((err) => setErr(err))
         }
       })
 
-      .catch((err) => setErr('err'))
+      .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
 
