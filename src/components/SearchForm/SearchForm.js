@@ -1,21 +1,35 @@
 import React from 'react'
-
+// import { useLocation } from 'react-router'
 import './SearchForm.css'
 import find from '../../images/find.svg'
 
-const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
+const SearchForm = React.memo(({ handleSubmitSearchForm, handleCheckboxChange }) => {
 
-    const [checkboxOn, setCheckboxOn] = React.useState(false)
+    // const location = useLocation()
+    const [isCheckboxOn, setIsCheckboxOn] = React.useState(false)
     const [query, setQuery] = React.useState('')
+    const [inputIsEmpty, setInputIsEmpty] = React.useState(false)
 
     const handleInput = (e) => {
         setQuery(e.target.value)
+        setInputIsEmpty(false)
     }
+
+    const listenCheckbox = () => {
+        handleCheckboxChange(!isCheckboxOn)
+        setIsCheckboxOn(!isCheckboxOn)
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        handleSubmitSearchForm(query)
-        setQuery('')
+        !query
+            // &&
+            // location.pathname !== '/saved-movies'
+            ?
+            setInputIsEmpty(true)
+            :
+            handleSubmitSearchForm(query)
     }
 
     return (
@@ -29,8 +43,12 @@ const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
                         onChange={handleInput}
                         value={query}
                         type='text'
-                        required />
+                    />
                 </label>
+                {
+                    inputIsEmpty &&
+                    <span className='search__input-error'>Нужно ввести ключевое слово</span>
+                }
                 <button
                     className='search__button'
                     type='submit'
@@ -42,7 +60,7 @@ const SearchForm = React.memo(({ handleSubmitSearchForm }) => {
                     <input
                         className='search__checkbox'
                         type='checkbox'
-                        onClick={() => setCheckboxOn(!checkboxOn)}
+                        onChange={listenCheckbox}
                     />
                     <span className='search__checkbox-visible'></span>
                 </label>

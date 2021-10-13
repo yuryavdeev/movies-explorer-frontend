@@ -7,9 +7,9 @@
 
 .movie__image {
     width: 100%;
-    /* height: 168px; */
-    max-height: 190px;
-    /* background-size: contain; */
+    height: 168px;
+    max-height: 168px;
+    background-size: cover;
     /* background-repeat: no-repeat; */
     cursor: pointer;
     border-radius: 6px;
@@ -97,8 +97,27 @@
     display: none;
 }
 
+.movie__trailer-container {
+    width: fit-content;
+    margin: auto;
+}
+
+.movie__trailer {
+    width: 320px;
+    height: 180px;
+}
+
+
+@media screen and (min-width: 410px) {
+    .movie__trailer {
+        width: 400px;
+        height: 225px;
+    }
+}
+
 @media screen and (min-width: 660px) {
     .movie__image {
+        height: 190px;
         max-height: 190px;
     }
 
@@ -128,15 +147,26 @@
     .movie__favorites_false-active {
         display: block;
     }
+
+    .movie__trailer {
+        width: 640px;
+        height: 360px;
+    }
 }
 
 
 @media screen and (min-width: 1024px) {
     .movie__image {
+        height: 201px;
         max-height: 201px;
     }
 
     .movie__bottom-container {
         margin: 14px 0 0;
+    }
+
+    .movie__trailer {
+        width: 720px;
+        height: 405px;
     }
 }

@@ -1,6 +1,7 @@
 .app {
     width:100%;
     max-width: 1280px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -10,10 +11,4 @@
     color: #fff;
     margin: 0 auto;
     padding: 0;
-}
-
-.logo {
-    margin: 0;
-    width: 38px;
-    height: 38px;
 }

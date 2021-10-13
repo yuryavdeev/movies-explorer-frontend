@@ -58,7 +58,6 @@
 }
 
 .profile__input_wrong {
-    margin: 10px 0 0;
     -webkit-text-fill-color: #EE3465;
 }
 
@@ -106,12 +105,13 @@
 }
 
 .profile__submit:hover {
-    opacity: .6;
+    opacity: .7;
     transition: opacity linear 0.3s;
 }
 
 .profile__submit_disabled {
-    opacity: .6;
+    color: rgb(155, 155, 155);
+    opacity: .7;
     cursor: auto;
  }
 

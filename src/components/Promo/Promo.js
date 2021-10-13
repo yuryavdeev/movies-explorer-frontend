@@ -1,12 +1,11 @@
 import React from 'react'
 import './Promo.css'
+import { config } from '../../utils/conf'
 
 const Promo = React.memo(() => {
     return (
         <section className='promo'>
-            <h1 className='promo__titile'>
-                Учебный проект студента факультета Веб-разработки.
-            </h1>
+            <h1 className='promo__titile'>{config.mainTitle}</h1>
         </section>
     )
 })

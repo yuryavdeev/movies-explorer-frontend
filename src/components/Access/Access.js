@@ -1,45 +1,34 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
-
+import { Link, useLocation, useHistory } from 'react-router-dom'
+import { useFormWithValidation } from '../Validation/Validation'
 import './Access.css'
 import logo from '../../images/logo.svg'
 
-const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link }) => {
+const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link, messageErr }) => {
 
     const location = useLocation()
+    const history = useHistory()
+    const handleForm = useFormWithValidation()
+    const [buttonDisabled, setButtonDisabled] = React.useState(true)
 
-    const [mistake, setMistake] = React.useState('Что-то пошло не так...')
-    const [somethingWrongName, setSomethingWrongName] = React.useState(false)
-    const [somethingWrongEmail, setSomethingWrongEmail] = React.useState(false) // ошибка результата запроса
-    const [somethingWrongPassword, setSomethingWrongPassword] = React.useState(false)
-    const [buttonDisabled, setButtonDisabled] = React.useState(false) // при загрузке исправить на true
 
-    const [name, setName] = React.useState('')
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    React.useEffect(() => {
+        handleForm.isValid ? setButtonDisabled(false) : setButtonDisabled(true)
+    }, [handleForm.isValid])
+
 
     const handleSubmit = (evt) => {
         evt.preventDefault()
-        nextHandleSubmit({ name, email, password })
+        nextHandleSubmit(handleForm.values)
+        handleForm.resetForm()
     }
 
-    const handleNameInput = (evt) => {
-        setName(evt.target.value)
-    }
-
-    const handleEmailInput = (evt) => {
-        setEmail(evt.target.value)
-    }
-
-    const handlePasswordInput = (evt) => {
-        setPassword(evt.target.value)
-    }
 
     return (
         <div className='access'>
 
             <div className='access__top'>
-                <img className='logo' src={logo} alt='логотип' />
+                <img className='logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
                 <h2 className='access__title'>{greeting}</h2>
             </div>
 
@@ -51,19 +40,20 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
                                 id='name'
                                 name='name'
                                 type='text'
-                                className={`access__input ${somethingWrongName && 'access__input_wrong'}`}
-                                value={name}
-                                onChange={handleNameInput}
-                                required
+                                placeholder='name'
+                                className={`access__input ${handleForm.errors.name && 'access__input_wrong'}`}
+                                value={handleForm.values.this}
+                                onChange={handleForm.handleChange}
                                 // formNoValidate
-                                minLength='6'
+                                minLength='2'
                                 maxLength='30'
-                                placeholder = 'name'
+                                pattern='^[A-Za-zА-Яа-яЁё\s\-]{2,30}$'
+                                title="поле может содержать только латиницу, кириллицу, пробел или дефис"
                             />
                         </label>
                         {
-                            somethingWrongName &&
-                            <span className='access__input-error name-error'>{mistake}</span>
+                            handleForm.errors.name &&
+                            <span className='access__input-error'>{handleForm.errors.name}</span>
                         }
                     </>
                 }
@@ -73,16 +63,18 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
                         id='email'
                         name='email'
                         type='email'
-                        className={`access__input ${somethingWrongEmail && 'access__input_wrong'}`} // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        value={email}
-                        onChange={handleEmailInput}
-                        required
                         placeholder='e-mail'
+                        className={`access__input ${handleForm.errors.email && 'access__input_wrong'}`}
+                        value={handleForm.values.this}
+                        onChange={handleForm.handleChange}
+                        // formNoValidate
+                        pattern='^[^@\s]+@[^@\s]+\.[^@\s]+$'
+                        title="поле должно содержать формат электронного адреса"
                     />
                 </label>
                 {
-                    somethingWrongEmail &&
-                    <span className='access__input-error email-error'>{mistake}</span>
+                    handleForm.errors.email &&
+                    <span className='access__input-error'>{handleForm.errors.email}</span>
                 }
 
                 <label className='access__label'>Пароль
@@ -90,22 +82,27 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
                         id='password'
                         name='password'
                         type='password'
-                        className={`access__input ${somethingWrongPassword && 'access__input_wrong'}`}
-                        value={password}
-                        onChange={handlePasswordInput}
-                        required
+                        placeholder='password'
+                        className={`access__input ${handleForm.errors.password && 'access__input_wrong'}`}
+                        value={handleForm.values.this}
+                        onChange={handleForm.handleChange}
+                        // formNoValidate
                         minLength='6'
                         maxLength='30'
-                        placeholder='password'
+                        title="поле должно содержать не менее 6 и не более 30 знаков"
                     />
                 </label>
                 {
-                    somethingWrongPassword &&
-                    <span className='access__input-error password-error'>{mistake}</span>
+                    handleForm.errors.password &&
+                    <span className='access__input-error'>{handleForm.errors.password}</span>
                 }
+
             </form>
 
             <div className='access__bottom'>
+                {messageErr &&
+                    <p className="access__message">{messageErr}</p>}
+
                 <button
                     className={`access__submit ${buttonDisabled && 'access__submit_disabled'}`}
                     form='access'
@@ -114,6 +111,7 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
                 >
                     {button}
                 </button>
+
                 <p className='access__is-registrated'>{isRegistrated}
                     <Link
                         to={location.pathname === '/signin' ? '/signup' : '/signin'}
