@@ -15,4 +15,5 @@ https://avdeev.movies.nomoredomains.monster
 - React    
 - CSS3    
 - БЭМ    
-- JSX
+- JSX    
+- Figma
