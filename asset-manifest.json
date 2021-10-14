@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.8233a3a2.chunk.css",
-    "main.js": "/static/js/main.bedbdd07.chunk.js",
-    "main.js.map": "/static/js/main.bedbdd07.chunk.js.map",
+    "main.js": "/static/js/main.be03388e.chunk.js",
+    "main.js.map": "/static/js/main.be03388e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.470e2bfb.js",
     "runtime-main.js.map": "/static/js/runtime-main.470e2bfb.js.map",
     "static/js/2.7910b354.chunk.js": "/static/js/2.7910b354.chunk.js",
@@ -21,7 +21,7 @@
     "static/media/icon-menu.4b1de763.svg": "/static/media/icon-menu.4b1de763.svg",
     "static/media/logo.c26504b6.svg": "/static/media/logo.c26504b6.svg",
     "static/media/Promo.css": "/static/media/main-promo.a77ef37d.svg",
-    "static/media/photo.b2691a65.jpg": "/static/media/photo.b2691a65.jpg",
+    "static/media/photo.399c6b2c.jpg": "/static/media/photo.399c6b2c.jpg",
     "static/media/Popup.css": "/static/media/plus.d5d6f8af.svg",
     "static/media/union-v.a9eb6caf.svg": "/static/media/union-v.a9eb6caf.svg",
     "static/media/union-x.d4ce2a26.svg": "/static/media/union-x.d4ce2a26.svg"
@@ -30,6 +30,6 @@
     "static/js/runtime-main.470e2bfb.js",
     "static/js/2.7910b354.chunk.js",
     "static/css/main.8233a3a2.chunk.css",
-    "static/js/main.bedbdd07.chunk.js"
+    "static/js/main.be03388e.chunk.js"
   ]
 }
