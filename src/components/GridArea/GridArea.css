@@ -128,7 +128,7 @@
     .grid-area {
         grid-template-columns: auto 255px;
         grid-template-rows: repeat(2, auto); 
-        gap: 90px 49px;
+        gap: 90px 40px;
         grid-template-areas: 
         'info photo'
         'portfolio portfolio';
@@ -147,7 +147,7 @@
 
     .grid-area__info-about {
         font-size: 12px;
-        margin: 16px 0 20px;
+        margin: 12px 0 16px;
     }
 
     .grid-area__info-text {

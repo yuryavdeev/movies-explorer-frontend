@@ -15,7 +15,7 @@ const NavTab = React.memo(() => {
             </HashLink>
 
             <HashLink smooth to='/#about-me' className='nav-tab__link'>
-                Студент
+                Обо мне
             </HashLink>
 
         </nav>
