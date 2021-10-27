@@ -18,9 +18,9 @@ const GridArea = React.memo(() => {
                 <h4 className='grid-area__info-about'>{config.aboutMeInfo}</h4>
                 <p className='grid-area__info-text'>{config.aboutMeText}</p>
                 <ul className='grid-area__info-links-list'>
-                    {/* <li className='grid-area__links-item'>
-                        <Link to={{ pathname: 'https://www.facebook.com' }} className='grid-area__info-link' target='_blank'>Facebook</Link>
-                    </li> */}
+                    <li className='grid-area__links-item'>
+                        <Link to={{ pathname: 'https://www.facebook.com/profile.php?id=100073423737405' }} className='grid-area__info-link' target='_blank'>Facebook</Link>
+                    </li>
                     <li className='grid-area__links-item'>
                         <Link to={{ pathname: 'https://github.com/yuryavdeev' }} className='grid-area__info-link' target='_blank'>Github</Link>
                     </li>

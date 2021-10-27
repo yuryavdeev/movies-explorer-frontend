@@ -86,6 +86,17 @@ const MoviesCard = React.memo(({ incomingMovie }) => {
         listOfFound.splice(movIndex, 1, savedMovie)
         localStorage.setItem('listOfFound', JSON.stringify(listOfFound))
 
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        // function union(arr1, arr2) {
+        //     let _union = new Set(arr1)
+        //     for (let elem of arr2) {
+        //         _union.add(elem)
+        //     }
+        //     return _union
+        // }
+        // console.log(union([1, 2, 3, 4, 5], [4, 5, 6, 7]))
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
         // список фильмов из избранного - для правильного отображения на /saved-movies после изменений списка на /movies
         let myFavoriteMoviesList = JSON.parse(localStorage.getItem('myFavoriteMoviesList'))
         // сохраняемый фильм =>

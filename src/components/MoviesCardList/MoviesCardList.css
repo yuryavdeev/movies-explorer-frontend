@@ -8,8 +8,6 @@
     margin: 40px auto 13px;
     display: grid;
     grid-template-columns: minmax(300px, 339px);
-    /* grid-template-rows: repeat(5, auto); */
-
     row-gap: 36px;
     justify-content: center;
 }

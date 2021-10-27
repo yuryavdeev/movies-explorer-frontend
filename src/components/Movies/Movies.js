@@ -35,7 +35,6 @@ const Movies = React.memo(({ loggedIn }) => {
                 localStorage.setItem('listOfFound', JSON.stringify(newList)) // в localStorage <= для отрисовки при возврате
             } else {
                 setMessage('Ничего не найдено')
-
             }
         }
     }, [queryString, checkboxActive])
@@ -53,7 +52,6 @@ const Movies = React.memo(({ loggedIn }) => {
     }, [checkboxActive, listForRender])
 
 
-    // запрос - данные из localstorage
     const handleSubmitSearchForm = (query) => {
         setMessage('')
         setQueryString(query)
