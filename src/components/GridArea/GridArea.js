@@ -45,6 +45,13 @@ const GridArea = React.memo(() => {
                     </li>
                     <hr className='grid-area__portfolio-border'></hr>
                     <li className='grid-area__links-item'>
+                        <p className='grid-area__portfolio-name'>Сайт с блоком фильтров</p>
+                        <Link to={{ pathname: 'https://yuryavdeev.github.io/avia-search' }} className='grid-area__portfolio-link' target='_blank'>
+                            <img className='grid-area__portfolio-arrow' src={arrow} alt='ссылка в виде стрелки' />
+                        </Link>
+                    </li>
+                    <hr className='grid-area__portfolio-border'></hr>
+                    <li className='grid-area__links-item'>
                         <p className='grid-area__portfolio-name'>Одностраничное приложение</p>
                         <Link to={{ pathname: 'https://avdeev.nomoredomains.monster' }} className='grid-area__portfolio-link' target='_blank'>
 

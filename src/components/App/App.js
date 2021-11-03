@@ -36,7 +36,8 @@ function App() {
   React.useEffect(() => {
     if (localStorage.isAuth) {
       if (localStorage.currentUser && localStorage.myFavoriteMoviesList && sessionStorage.baseMoviesList) {
-        console.log(' => local data is true...')
+        // console.log(' => local data is true...')
+        // console.log(JSON.parse(localStorage.getItem('myFavoriteMoviesList')))
         setCurrentUser(JSON.parse(localStorage.getItem('currentUser')))
         history.push(location.pathname) // => при непоср. переходе или обновл. - если ProtectedRoute > /signin и '/' <= location.pathname
       } else {
@@ -139,7 +140,7 @@ function App() {
 
 
   const updateMoviesLists = () => {
-    console.log('updateMoviesLists')
+    // console.log('updateMoviesLists')
     setIsSubmitting(true)
 
     getMyMovies()
