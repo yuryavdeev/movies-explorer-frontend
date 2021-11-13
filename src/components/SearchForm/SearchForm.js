@@ -1,11 +1,9 @@
 import React from 'react'
-// import { useLocation } from 'react-router'
 import './SearchForm.css'
 import find from '../../images/find.svg'
 
 const SearchForm = React.memo(({ handleSubmitSearchForm, handleCheckboxChange }) => {
 
-    // const location = useLocation()
     const [isCheckboxOn, setIsCheckboxOn] = React.useState(false)
     const [query, setQuery] = React.useState('')
     const [inputIsEmpty, setInputIsEmpty] = React.useState(false)
@@ -24,8 +22,6 @@ const SearchForm = React.memo(({ handleSubmitSearchForm, handleCheckboxChange })
     const handleSubmit = (e) => {
         e.preventDefault()
         !query
-            // &&
-            // location.pathname !== '/saved-movies'
             ?
             setInputIsEmpty(true)
             :
