@@ -228,9 +228,9 @@ function App() {
         {
           infoTooltipOpen &&
           <InfoTooltip
-            closePopup={closePopup}
-            icon={messageErr ? UnionX : UnionV}
-            notification={messageErr ? messageErr : 'Запрос выполнен успешно!'}
+            closePopup={ closePopup }
+            icon={ messageErr ? UnionX : UnionV }
+            notification={ messageErr ? messageErr : 'Запрос выполнен успешно!' }
           />
         }
 
