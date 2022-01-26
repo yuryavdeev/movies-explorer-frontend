@@ -74,9 +74,9 @@ const GridArea = React.memo(() => {
           </li>
           <hr className='grid-area__portfolio-border'></hr>
           <li className='grid-area__links-item'>
-            <p className='grid-area__portfolio-name'>Одностраничное приложение</p>
+            <p className='grid-area__portfolio-name'>Одностраничное приложение на Vue</p>
             <Link
-              to={{ pathname: 'https://yuryavdeev.github.io/mesto-react' }}
+              to={{ pathname: 'https://banks-requests.web.app' }}
               className='grid-area__portfolio-link'
               target='_blank'
             >
