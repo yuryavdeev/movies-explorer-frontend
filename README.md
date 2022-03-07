@@ -1,19 +1,20 @@
-# movies-explorer-frontend    
-https://avdeev.movies.nomoredomains.monster    
+# movies-explorer-frontend       
+This is frontend part of the Movies Explorer project (server part here - https://github.com/yuryavdeev/movies-explorer-api).    
+App was done as part of a graduation project in Yandex.Practice.    
 
-Фронтенд часть приложения Movies Explorer.    
-Работа выполнена как часть дипломного проекта в Яндекс.Практикуме.    
+## Functionality    
+- user registration and authorization,    
+- profile editing - name and e-mail,    
+- adding/removing favorit movies,    
+- search for movies by key indicators,    
+- site navigation.
 
-## Функциональность    
-- регистрация и авторизация пользователя,    
-- редактирование профиля - имени и e-mail,    
-- добавление/удаление  фильмов в избранное,    
-- поиск фильмов по ключевым словам,    
-- навигация по сайту.
-
-## Технологии            
+## Technology            
 - React    
 - CSS3    
 - БЭМ    
 - JSX    
 - Figma
+
+## Technology            
+- React    
