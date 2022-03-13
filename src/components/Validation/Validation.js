@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 //хук управления и валидации формы
 export const useFormWithValidation = () => {
 
-  const [errors, setErrors] = React.useState({})
-  const [values, setValues] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
+  const [errors, setErrors] = useState({})
+  const [values, setValues] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
 
   const handleChange = useCallback((evt) => {

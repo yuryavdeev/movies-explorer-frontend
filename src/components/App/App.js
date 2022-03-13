@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
 import './App.css'
@@ -21,19 +21,18 @@ import UnionV from '../../images/union-v.svg'
 import UnionX from '../../images/union-x.svg'
 
 function App() {
-
   const history = useHistory()
   const location = useLocation()
-  const [currentUser, setCurrentUser] = React.useState()
+  const [currentUser, setCurrentUser] = useState()
   const withFooterURL = ['/', '/movies', '/saved-movies']
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [infoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
-  const [messageErr, setMessageErr] = React.useState('')
-  const [err, setErr] = React.useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [infoTooltipOpen, setInfoTooltipOpen] = useState(false)
+  const [messageErr, setMessageErr] = useState('')
+  const [err, setErr] = useState('')
 
 
   // авторизация при возврате на сайт
-  React.useEffect(() => {
+  useEffect(() => {
     if (localStorage.isAuth) {
       if (localStorage.currentUser && localStorage.myFavoriteMoviesList && sessionStorage.baseMoviesList) {
         // console.log(' => local data is true...')
@@ -63,7 +62,7 @@ function App() {
   // обработка ошибок запросов
   useEffect(() => {
     if (err) {
-      setMessageErr(`В ответе на Ваш запрос сервером возвращена ошибка - ${err}`)
+      setMessageErr(`The server returned an error in response to your request - ${err}`)
       setInfoTooltipOpen(true)
     }
   }, [err])
@@ -100,9 +99,8 @@ function App() {
       })
       .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
-    console.log(localStorage)
-    console.log(currentUser)
-
+    // console.log(localStorage)
+    // console.log(currentUser)
   }
 
 
@@ -167,7 +165,6 @@ function App() {
             .catch((err) => setErr(err))
         }
       })
-
       .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
   }
@@ -182,9 +179,7 @@ function App() {
 
   return (
     <CurrentUser.Provider value={currentUser}>
-
       <div className='app'>
-
         <Switch>
           <Route exact path='/'>
             <Main />
@@ -230,7 +225,7 @@ function App() {
           <InfoTooltip
             closePopup={ closePopup }
             icon={ messageErr ? UnionX : UnionV }
-            notification={ messageErr ? messageErr : 'Запрос выполнен успешно!' }
+            notification={ messageErr ? messageErr : 'Request completed successfully!' }
           />
         }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo, useContext, useState, useEffect } from 'react'
 import { useLocation, useHistory, Link } from 'react-router-dom'
 import './Header.css'
 import logo from '../../images/logo.svg'
@@ -8,17 +8,16 @@ import Popup from '../Popup/Popup'
 import { CurrentUser } from '../../contexts/CurrentUserContext'
 
 
-const Header = React.memo(() => {
-
-  const currentUser = React.useContext(CurrentUser)
+const Header = memo(() => {
+  const currentUser = useContext(CurrentUser)
   const location = useLocation() // или > { pathname } = useLocation()
   const history = useHistory()
-  const [navigationPopup, setNavigationPopup] = React.useState(false)
+  const [navigationPopup, setNavigationPopup] = useState(false)
   const resolution = window.matchMedia('(min-width: 800px)') // медиа-запрос в конст., возвр. объект
-  const [viewportWidth, setViewportWidth] = React.useState(resolution.matches) // св-во объекта ответа - true - если document сейчас соот-т медиа-запросу
+  const [viewportWidth, setViewportWidth] = useState(resolution.matches) // св-во объекта ответа - true - если document сейчас соот-т медиа-запросу
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     resolution.onchange = () => { // переход через 800рх
       resolution.matches ? // => true / false
         setViewportWidth(true)
@@ -47,8 +46,8 @@ const Header = React.memo(() => {
         {
           !currentUser ?
             <nav className='header__nav-container'>
-              <Link to='/signup' className='header__link_word' target='_self'>Регистрация</Link>
-              <Link to='/signin' className='header__link_button' target='_self'>Войти</Link>
+              <Link to='/signup' className='header__link_word' target='_self'>Registration</Link>
+              <Link to='/signin' className='header__link_button' target='_self'>Login</Link>
             </nav>
             :
             <>

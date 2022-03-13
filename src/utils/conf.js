@@ -1,18 +1,18 @@
 export const config = {
-    mainTitle: 'Учебный проект студента факультета Веб-разработки.',
-    aboutMeName: 'Юрий Авдеев',
-    aboutMeInfo: 'Фронтенд-разработчик, 43 года',
-    aboutMeText: 'Я живу в Москве, у меня высшее юридическое образование, но основной отрезок профессиональной карьеры пришёлся на строительную сферу. У меня есть жена и четыре прекрасных ребёнка. Мне нравится смотреть хорошее кино, читать хорошие книги и путешествовать с семьёй. Недавно я открыл для себя ещё одно увлечение - веб-разработка. И после того, как прошёл курс обучения, я решил полностью посвятить себя любимому делу.',
+    mainTitle: 'Educational project of a student of the Faculty of Web Development.',
+    aboutMeName: 'Yury Avdeev',
+    aboutMeInfo: 'Frontend developer, 43',
+    aboutMeText: 'I live in Moscow and soon I will move to Bulgaria. I have a higher legal education, but the main segment of my professional career is connected with the construction industry. I have a wife and four beautiful children. I enjoy watching good movies, reading good books and traveling with my family. Already in adulthood, I discovered my favorite business - web development and now I can combine my favorite hobby with my favorite work. I love using Vue and React in my work - these are amazing technologies with incredible possibilities in web development.',
     login: {
-        greeting: 'Рады видеть!',
-        button: 'Войти',
-        isRegistrated: 'Ещё не зарегистрированы?',
-        link: 'Регистрация'
+        greeting: 'Welcome!',
+        button: 'Login',
+        isRegistrated: 'Not registered yet?',
+        link: 'Registration'
     },
     register: {
-        greeting: 'Добро пожаловать!',
-        button: 'Зарегистрироваться',
-        isRegistrated: 'Уже зарегистрированы?',
-        link: 'Войти'
+        greeting: 'Welcome!',
+        button: 'Register',
+        isRegistrated: 'Already registered?',
+        link: 'Login'
     },
 }

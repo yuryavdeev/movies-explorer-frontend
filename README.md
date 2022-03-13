@@ -12,7 +12,7 @@ App was done as part of a graduation project in Yandex.Practice.
 ## Technology            
 - React    
 - CSS3    
-- БЭМ    
+- BEM    
 - JSX    
 - Figma
 

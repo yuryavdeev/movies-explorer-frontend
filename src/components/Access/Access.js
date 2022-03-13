@@ -1,18 +1,18 @@
-import React from 'react'
+import {memo, useState, useEffect} from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { useFormWithValidation } from '../Validation/Validation'
 import './Access.css'
 import logo from '../../images/logo.svg'
 
-const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, link, messageErr }) => {
 
+const Access = memo(({ nextHandleSubmit, greeting, button, isRegistrated, link, messageErr }) => {
   const location = useLocation()
   const history = useHistory()
   const handleForm = useFormWithValidation()
-  const [buttonDisabled, setButtonDisabled] = React.useState(true)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleForm.isValid ? setButtonDisabled(false) : setButtonDisabled(true)
   }, [handleForm.isValid])
 
@@ -26,7 +26,6 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
 
   return (
     <div className='access'>
-
       <div className='access__top'>
         <img className='logo' src={logo} onClick={() => history.push('/')} alt='логотип' />
         <h2 className='access__title'>{greeting}</h2>
@@ -35,7 +34,7 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
       <form className='access__form' onSubmit={handleSubmit} id='access'>
         {location.pathname === '/signup' &&
           <>
-            <label className='access__label'>Имя
+            <label className='access__label'>Name
               <input
                 id='name'
                 name='name'
@@ -77,7 +76,7 @@ const Access = React.memo(({ nextHandleSubmit, greeting, button, isRegistrated, 
           <span className='access__input-error'>{handleForm.errors.email}</span>
         }
 
-        <label className='access__label'>Пароль
+        <label className='access__label'>Password
           <input
             id='password'
             name='password'

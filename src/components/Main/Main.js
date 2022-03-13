@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 
 import './Main.css'
 import Header from '../Header/Header'
@@ -8,17 +8,17 @@ import AboutProject from '../AboutProject/AboutProject'
 import Techs from '../Techs/Techs'
 import AboutMe from '../AboutMe/AboutMe'
 
-const Main = React.memo(() => {
-    return (
-        <section className='main'>
-            <Header />
-            <Promo />
-            <NavTab />
-            <AboutProject />
-            <Techs />
-            <AboutMe />
-        </section>
-    )
+const Main = memo(() => {
+  return (
+    <section className='main'>
+      <Header />
+      <Promo />
+      <NavTab />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+    </section>
+  )
 })
 
 export default Main
