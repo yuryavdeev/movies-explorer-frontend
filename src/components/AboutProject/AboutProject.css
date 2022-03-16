@@ -1,7 +1,8 @@
 .project {
     width: calc(100% - 36px);
     max-width: 560px;
-    margin: 70px auto;
+    margin: 0 auto;
+    padding: 70px 0;
 }
 
 .project__title {
@@ -15,7 +16,6 @@
     padding: 0 0 28px 0;
 }
 
-/* список - описание */
 .project__about-list {
     width: 100%;
     margin: 60px auto;
@@ -44,7 +44,6 @@
     line-height: 1.4;
 }
 
-/* список - сроки */
 .project__terms-list {
     display: flex;
     margin: 0%;
@@ -86,7 +85,7 @@
     .project {
         width: calc(100% - 100px);
         max-width: 1140px;
-        margin: 90px auto;
+        padding: 90px 0;
     }
 
     .project__title {
@@ -137,7 +136,7 @@
 
 @media screen and (min-width: 1024px) {
     .project {
-        margin: 110px auto;
+        padding: 110px 0;
     }
 
     .project__about-list {
