@@ -18,6 +18,3 @@ App was done as part of a graduation project in Yandex.Practice.
 - BEM    
 - JSX    
 - Figma
-
-## Technology            
-- React    
