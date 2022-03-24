@@ -13,8 +13,7 @@ App was done as part of a graduation project in Yandex.Practice.
 - site navigation.
 
 ## Technology            
-- React    
+- JS + React    
 - CSS3    
 - BEM    
-- JSX    
 - Figma
