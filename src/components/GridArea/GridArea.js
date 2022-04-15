@@ -16,7 +16,7 @@ const GridArea = memo(() => {
         <ul className='grid-area__info-links-list'>
           <li className='grid-area__links-item'>
             <Link
-              to={{ pathname: 'https://www.facebook.com/profile.php?id=100073423737405' }}
+              to={{ pathname: 'https://www.facebook.com/profile.php?id=100080069213498' }}
               className='grid-area__info-link'
               target='_blank'>
               Facebook
