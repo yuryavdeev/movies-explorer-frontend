@@ -99,8 +99,6 @@ function App() {
       })
       .catch((err) => setErr(err))
       .finally(() => setIsSubmitting(false))
-    // console.log(localStorage)
-    // console.log(currentUser)
   }
 
 
@@ -138,13 +136,10 @@ function App() {
 
 
   const updateMoviesLists = () => {
-    // console.log('updateMoviesLists')
     setIsSubmitting(true)
-
     getMyMovies()
       .then((myMoviesArray) => {
         localStorage.setItem('myFavoriteMoviesList', JSON.stringify(myMoviesArray))
-
         // очищать при окончания сессии веб-страницы: запрос к API при логине и при переходе с др. стр., но не при обновлении и возврте на стр. =>
         if (!sessionStorage.baseMoviesList) { // <= !!! - sessionStorage (=> чаще обновлять baseMoviesList, в т.ч. при работе с разных устройств)
           moviesApi.getMovies()
